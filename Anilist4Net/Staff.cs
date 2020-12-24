@@ -13,16 +13,16 @@ namespace Anilist4Net
 		public  string              DescriptionHtml   { get; set; }
 		public  string              SiteUrl           { get; set; }
 		private MediaNodeConnection StaffMedia        { get; set; }
-		public  int[]               StaffMediaIds     => StaffMedia.Nodes.Select(n => n.Id).ToArray();
+		public  int?[]              StaffMediaIds     => StaffMedia.Nodes.Select(n => n.Id).Cast<int?>().ToArray();
 		private CharacterConnection Characters        { get; set; }
-		public  int[]               CharacterIds      => Characters.Edges.Select(n => n.Node.Id).ToArray();
+		public  int?[]              CharacterIds      => Characters.Edges.Select(n => n.Node.Id).Cast<int?>().ToArray();
 		private MediaNodeConnection CharacterMedia    { get; set; }
-		public  int[]               CharacterMediaIds => CharacterMedia.Nodes.Select(n => n.Id).ToArray();
+		public  int?[]              CharacterMediaIds => CharacterMedia.Nodes.Select(n => n.Id).Cast<int?>().ToArray();
 		public  int                 Favourites        { get; set; }
 		public  string              ModNotes          { get; set; }
 	}
 
-	internal class StaffResponse
+	public class StaffResponse
 	{
 		public Staff Staff { get; set; }
 	}

@@ -7,22 +7,22 @@ namespace Anilist4Net
 {
 	public class Media
 	{
-		private MediaTitle _mediaTitle { get; set; }
+		public MediaTitle Title { get; set; }
 
 		/// <summary>
 		///     The title in Romaji
 		/// </summary>
-		public string RomajiTitle => _mediaTitle.Romaji;
+		public string RomajiTitle => Title.Romaji;
 
 		/// <summary>
 		///     The title in English
 		/// </summary>
-		public string EnglishTitle => _mediaTitle.English;
+		public string EnglishTitle => Title.English;
 
 		/// <summary>
 		///     The title in the native language (usually Japanese)
 		/// </summary>
-		public string NativeTitle => _mediaTitle.Native;
+		public string NativeTitle => Title.Native;
 
 		/// <summary>
 		///     The ID of the media
@@ -59,8 +59,8 @@ namespace Anilist4Net
 		/// </summary>
 		public string DescriptionHtml { get; set; }
 
-		private FuzzyDate _startDate { get; set; }
-		private FuzzyDate _endDate   { get; set; }
+		public FuzzyDate StartDate { get; set; }
+		public FuzzyDate EndDate   { get; set; }
 
 		/// <summary>
 		///     The season the media is from
@@ -127,27 +127,27 @@ namespace Anilist4Net
 		/// </summary>
 		public int UpdatedAt { get; set; }
 
-		private MediaCoverImage _coverImage { get; set; }
+		public MediaCoverImage CoverImage { get; set; }
 
 		/// <summary>
 		///     The cover image URL (Extra Large)
 		/// </summary>
-		public string CoverImageExtraLarge => _coverImage.ExtraLarge;
+		public string CoverImageExtraLarge => CoverImage.ExtraLarge;
 
 		/// <summary>
 		///     The cover image URL (Large)
 		/// </summary>
-		public string CoverImageLarge => _coverImage.Large;
+		public string CoverImageLarge => CoverImage.Large;
 
 		/// <summary>
 		///     The cover image URL (Medium)
 		/// </summary>
-		public string CoverImageMedium => _coverImage.Medium;
+		public string CoverImageMedium => CoverImage.Medium;
 
 		/// <summary>
 		///     The cover image colour URL
 		/// </summary>
-		public string CoverImageColour => _coverImage.Color;
+		public string CoverImageColour => CoverImage.Color;
 
 		/// <summary>
 		///     The banner image URL
@@ -199,10 +199,10 @@ namespace Anilist4Net
 		/// </summary>
 		public MediaTag[] Tags { get; set; }
 
-		private MediaEdgeConnection _relations  { get; set; }
-		private CharacterConnection _characters { get; set; }
-		private StaffConnection     _staff      { get; set; }
-		private StudioConnection    _studios    { get; set; }
+		public MediaEdgeConnection Relations  { get; set; }
+		public CharacterConnection Characters { get; set; }
+		public StaffConnection     Staff      { get; set; }
+		public StudioConnection    Studios    { get; set; }
 
 		/// <summary>
 		///     Is this media adult only? (18+ content)
@@ -214,8 +214,8 @@ namespace Anilist4Net
 		/// </summary>
 		public AiringSchedule NextAiringEpisode { get; set; }
 
-		private AiringScheduleConnection _airingSchedule { get; set; }
-		private MediaTrendConnection     _trends         { get; set; }
+		public AiringScheduleConnection AiringSchedule { get; set; }
+		public MediaTrendConnection     Trends         { get; set; }
 
 		/// <summary>
 		///     External links for this media
@@ -232,8 +232,8 @@ namespace Anilist4Net
 		/// </summary>
 		public MediaRanking[] Rankings { get; set; }
 
-		private ReviewConnection         _reviews         { get; set; }
-		private RecommendationConnection _recommendations { get; set; }
+		public ReviewConnection         Reviews         { get; set; }
+		public RecommendationConnection Recommendations { get; set; }
 
 		/// <summary>
 		///     The media stats (score and status distribution)
@@ -255,42 +255,42 @@ namespace Anilist4Net
 		/// </summary>
 		public string ModNotes { get; set; }
 
-		public DateTime StartDate => new DateTime(_startDate.Year, _startDate.Month, _startDate.Day);
-		public DateTime EndDate   => new DateTime(_endDate.Year,   _endDate.Month,   _endDate.Day);
+		public DateTime AiringStartDate => new DateTime(StartDate.Year, StartDate.Month, StartDate.Day);
+		public DateTime AiringEndDate   => new DateTime(EndDate.Year,   EndDate.Month,   EndDate.Day);
 
-		public MediaRelation[] Relations => _relations.Edges
-		                                              .Select(e => new MediaRelation
-		                                               {
-			                                               MediaId = e.Node.Id, RelationType = e.RelationType
-		                                               }).ToArray();
+		public MediaRelation[] MediaRelations => Relations.Edges
+		                                                  .Select(e => new MediaRelation
+		                                                   {
+			                                                   MediaId = e.Node.Id, RelationType = e.RelationType
+		                                                   }).ToArray();
 
-		public int[] AiringSchedule => _airingSchedule.Nodes.Select(n => n.Id).ToArray();
+		public int[] MediaAiringSchedule => AiringSchedule.Nodes.Select(n => n.Id).ToArray();
 
-		public MediaTrend[] Trends => _trends.Nodes.Select(n => new MediaTrend
+		public MediaTrend[] MediaTrends => Trends.Nodes.Select(n => new MediaTrend
 		{
 			MediaId    = n.MediaId, Date          = n.Date, Trending        = n.Trending, AverageScore = n.AverageScore,
 			Popularity = n.Popularity, InProgress = n.InProgress, Releasing = n.Releasing, Episode     = n.Episode
 		}).ToArray();
 
-		public int[] Reviews => _reviews.Nodes.Select(n => n.Id).ToArray();
+		public int[] MediaReviews => Reviews.Nodes.Select(n => n.Id).ToArray();
 
-		public int[] Recommendations => _recommendations.Nodes.Select(n => n.Id).ToArray();
-		public int[] Characters      => _characters.Edges.Select(e => e.Node.Id).ToArray();
+		public int[] MediaRecommendations => Recommendations.Nodes.Select(n => n.Id).ToArray();
+		public int[] MediaCharacters      => Characters.Edges.Select(e => e.Node.Id).ToArray();
 	}
 
-	internal class MediaResponse
+	public class MediaResponse
 	{
 		public Media Media { get; set; }
 	}
 
-	internal class MediaTitle
+	public class MediaTitle
 	{
 		public string Romaji  { get; set; }
 		public string English { get; set; }
 		public string Native  { get; set; }
 	}
 
-	internal class FuzzyDate
+	public class FuzzyDate
 	{
 		public int Year  { get; set; }
 		public int Month { get; set; }
@@ -304,7 +304,7 @@ namespace Anilist4Net
 		public string Thumbnail { get; set; }
 	}
 
-	internal class MediaCoverImage
+	public class MediaCoverImage
 	{
 		public string ExtraLarge { get; set; }
 		public string Large      { get; set; }
@@ -338,14 +338,14 @@ namespace Anilist4Net
 
 	public class MediaTrend
 	{
-		public int MediaId      { get; set; }
-		public int Date         { get; set; }
-		public int Trending     { get; set; }
-		public int AverageScore { get; set; }
-		public int Popularity   { get; set; }
-		public int InProgress   { get; set; }
-		public int Releasing    { get; set; }
-		public int Episode      { get; set; }
+		public int  MediaId      { get; set; }
+		public int  Date         { get; set; }
+		public int  Trending     { get; set; }
+		public int? AverageScore { get; set; }
+		public int? Popularity   { get; set; }
+		public int? InProgress   { get; set; }
+		public bool Releasing    { get; set; }
+		public int? Episode      { get; set; }
 	}
 
 	public class MediaExternalLink
@@ -369,8 +369,8 @@ namespace Anilist4Net
 		public int          Rank    { get; set; }
 		public string       Type    { get; set; }
 		public MediaFormats Format  { get; set; }
-		public int          Year    { get; set; }
-		public Seasons      Season  { get; set; }
+		public int?         Year    { get; set; }
+		public Seasons?     Season  { get; set; }
 		public bool         AllTime { get; set; }
 		public string       Context { get; set; }
 	}
@@ -390,7 +390,7 @@ namespace Anilist4Net
 
 	public class StatusDistribution
 	{
-		public MediaStatuses Status { get; set; }
-		public int           Amount { get; set; }
+		public MediaListStatuses? Status { get; set; }
+		public int                Amount { get; set; }
 	}
 }

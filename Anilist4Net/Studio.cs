@@ -25,7 +25,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The IDs of media the studio has worked on
 		/// </summary>
-		public int[] MediaIds => Media.Nodes.Select(n => n.Id).ToArray();
+		public int?[] MediaIds => Media.Nodes.Select(n => n.Id).Cast<int?>().ToArray();
 
 		/// <summary>
 		///     The studio's Anilist URL
@@ -38,7 +38,7 @@ namespace Anilist4Net
 		public int Favourites { get; set; }
 	}
 
-	internal class StudioResponse
+	public class StudioResponse
 	{
 		public Studio Studio { get; set; }
 	}

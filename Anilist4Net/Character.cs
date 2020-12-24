@@ -69,7 +69,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The IDs of media this character is in
 		/// </summary>
-		public int[] MediaIds => MediaEdge.Nodes.Select(n => n.Id).ToArray();
+		public int?[] MediaIds => MediaEdge.Nodes.Select(n => n.Id).Cast<int?>().ToArray();
 
 		/// <summary>
 		///     How many users have favourited this character
@@ -82,12 +82,12 @@ namespace Anilist4Net
 		public string ModNotes { get; set; }
 	}
 
-	internal class CharacterResponse
+	public class CharacterResponse
 	{
 		public Character Character { get; set; }
 	}
 
-	internal class CharacterName
+	public class CharacterName
 	{
 		public string   First       { get; set; }
 		public string   Last        { get; set; }
@@ -96,7 +96,7 @@ namespace Anilist4Net
 		public string[] Alternative { get; set; }
 	}
 
-	internal class CharacterImage
+	public class CharacterImage
 	{
 		public string Large  { get; set; }
 		public string Medium { get; set; }

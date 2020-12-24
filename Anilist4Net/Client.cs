@@ -355,7 +355,7 @@ namespace Anilist4Net
 
 		public async Task<Media> GetMediaById(int id)
 		{
-			var query         = $"query ($id: int) {{ Media (id: $id) {MediaQueryReturn} }}";
+			var query         = $"query ($id: Int) {{ Media (id: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);

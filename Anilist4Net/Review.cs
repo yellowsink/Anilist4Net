@@ -42,7 +42,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The rating of the review
 		/// </summary>
-		public int Rating { get; set; }
+		public int? Rating { get; set; }
 
 		/// <summary>
 		///     How many people rated it
@@ -72,10 +72,10 @@ namespace Anilist4Net
 		/// <summary>
 		///     When the review was last updated
 		/// </summary>
-		public int UpdatedAt { get; set; }
+		public int? UpdatedAt { get; set; }
 	}
 
-	internal class ReviewResponse
+	public class ReviewResponse
 	{
 		public Review Review { get; set; }
 	}

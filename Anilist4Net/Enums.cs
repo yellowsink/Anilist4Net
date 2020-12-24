@@ -76,6 +76,16 @@ namespace Anilist4Net.Enums
 		HIATUS
 	}
 
+	public enum MediaListStatuses
+	{
+		CURRENT,
+		PLANNING,
+		COMPLETED,
+		DROPPED,
+		PAUSED,
+		REPEATING
+	}
+
 	public enum Seasons
 	{
 		WINTER,

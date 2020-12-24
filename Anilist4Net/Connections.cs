@@ -2,116 +2,116 @@
 
 namespace Anilist4Net.Connections
 {
-	internal class MediaEdgeConnection
+	public class MediaEdgeConnection
 	{
 		public MediaEdge[] Edges { get; set; }
 	}
 
-	internal class MediaEdge
+	public class MediaEdge
 	{
 		public MediaNodePlaceholder Node         { get; set; }
 		public MediaRelationType    RelationType { get; set; }
 	}
 
-	internal class MediaNodePlaceholder
+	public class MediaNodePlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class CharacterConnection
+	public class CharacterConnection
 	{
 		public CharacterEdge[] Edges { get; set; }
 	}
 
-	internal class CharacterEdge
+	public class CharacterEdge
 	{
 		public CharacterNodePlaceholder Node        { get; set; }
 		public VoiceActorPlaceholder[]  VoiceActors { get; set; }
 	}
 
-	internal class CharacterNodePlaceholder
+	public class CharacterNodePlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class VoiceActorPlaceholder
+	public class VoiceActorPlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class StaffConnection
+	public class StaffConnection
 	{
 		public StaffEdge[] Edges { get; set; }
 	}
 
-	internal class StaffEdge
+	public class StaffEdge
 	{
 		public StaffNodePlaceholder Node { get; set; }
 		public string               Role { get; set; }
 	}
 
-	internal class StaffNodePlaceholder
+	public class StaffNodePlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class StudioConnection
+	public class StudioConnection
 	{
 		public StudioEdge[] Edges { get; set; }
 	}
 
-	internal class StudioEdge
+	public class StudioEdge
 	{
 		public StudioNodePlaceholder Node   { get; set; }
 		public bool                  IsMain { get; set; }
 	}
 
-	internal class StudioNodePlaceholder
+	public class StudioNodePlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class AiringScheduleConnection
+	public class AiringScheduleConnection
 	{
 		public AiringScheduleNodePlaceholder[] Nodes { get; set; }
 	}
 
-	internal class AiringScheduleNodePlaceholder
+	public class AiringScheduleNodePlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class MediaTrendConnection
+	public class MediaTrendConnection
 	{
 		public MediaTrend[] Nodes { get; set; }
 	}
 
-	internal class ReviewConnection
+	public class ReviewConnection
 	{
 		public ReviewNodePlaceholder[] Nodes { get; set; }
 	}
 
-	internal class ReviewNodePlaceholder
+	public class ReviewNodePlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class RecommendationConnection
+	public class RecommendationConnection
 	{
 		public RecommendationNode[] Nodes { get; set; }
 	}
 
-	internal class RecommendationNode
+	public class RecommendationNode
 	{
 		public int Id { get; set; }
 	}
 
-	internal class UserPlaceholder
+	public class UserPlaceholder
 	{
 		public int Id { get; set; }
 	}
 
-	internal class MediaNodeConnection
+	public class MediaNodeConnection
 	{
 		public MediaNodePlaceholder[] Nodes { get; set; }
 	}

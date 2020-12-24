@@ -88,7 +88,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The user's amount of unread notifications
 		/// </summary>
-		public int UnreadNotificationCount { get; set; }
+		public int? UnreadNotificationCount { get; set; }
 
 		/// <summary>
 		///     The user's Anilist site URL
@@ -116,18 +116,18 @@ namespace Anilist4Net
 		public int UpdatedAt { get; set; }
 	}
 
-	internal class UserResponse
+	public class UserResponse
 	{
 		public User User;
 	}
 
-	internal class UserAvatar
+	public class UserAvatar
 	{
 		public string Large { get; set; }
 		public string Small { get; set; }
 	}
 
-	internal class UserOptions
+	public class UserOptions
 	{
 		public UserTitleLanguages TitleLanguage       { get; set; }
 		public bool               DisplayAdultContent { get; set; }
@@ -135,7 +135,7 @@ namespace Anilist4Net
 		public UserProfileColors  ProfileColor        { get; set; }
 	}
 
-	internal class UserMediaListOptions
+	public class UserMediaListOptions
 	{
 		public ScoreFormats             ScoreFormat { get; set; }
 		public string                   RowOrder    { get; set; }

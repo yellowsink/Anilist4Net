@@ -34,7 +34,7 @@ namespace Anilist4Net
 		public int UserId { get; set; }
 	}
 
-	internal class RecommendationResponse
+	public class RecommendationResponse
 	{
 		public Recommendation Recommendation { get; set; }
 	}
