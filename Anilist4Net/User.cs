@@ -170,6 +170,7 @@
 	}
 
 	// ReSharper disable InconsistentNaming
+	// ReSharper disable IdentifierTypo
 	public enum ScoreFormats
 	{
 		POINT_100,
@@ -199,5 +200,6 @@
 		green,
 		gray
 	}
+	// ReSharper restore IdentifierTypo
 	// ReSharper restore InconsistentNaming
 }
