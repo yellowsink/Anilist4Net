@@ -32,8 +32,8 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [x] Implement users
 	* [x] Classes
 	* [x] Client functions
-- [-] Implement media
-	* [-] Classes 
+- [x] Implement media
+	* [x] Classes 
 	* [x] Client functions
 - [ ] Implement studios
 	* [ ] Classes
