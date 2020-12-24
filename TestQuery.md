@@ -278,5 +278,28 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
       id
     }
   }
+  Character (id: 2504) { # some random character picked purely on whatever query was open at the time
+    id
+    name {
+      first
+      last
+      full
+      native
+    }
+    image {
+      large
+      medium
+    }
+    descriptionMd: description(asHtml: false)
+    descriptionHtml: description(asHtml: true)
+    siteUrl
+    media { 
+      nodes {
+        id
+      }
+    }
+    favourites
+    modNotes
+  }
 }
 ```
