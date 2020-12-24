@@ -264,5 +264,19 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
     episode
     mediaId
   }
+  Recommendation (id: 250){ # some random reccomendation, probably for Cowboy Bebop (again, convenience)
+    id
+    rating
+    userRating
+    media {
+      id
+    }
+    mediaRecommendation {
+      id
+    }
+    user {
+      id
+    }
+  }
 }
 ```
