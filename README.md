@@ -38,9 +38,9 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [x] Implement studios
 	* [x] Classes
 	* [x] Client functions
-- [ ] Implement staff
-	* [ ] Classes
-	* [ ] Client functions
+- [x] Implement staff
+	* [x] Classes
+	* [x] Client functions
 - [x] Implement characters
 	* [x] Classes
 	* [x] Client functions
