@@ -5,64 +5,253 @@ namespace Anilist4Net
 {
 	public class Media
 	{
-		private MediaTitle               _mediaTitle           { get; set; }
-		public  string                   RomajiTitle           => _mediaTitle.Romaji;
-		public  string                   EnglishTitle          => _mediaTitle.English;
-		public  string                   NativeTitle           => _mediaTitle.Native;
-		public  int                      Id                    { get; set; }
-		public  int?                     IdMal                 { get; set; }
-		public  MediaTypes               Type                  { get; set; }
-		public  MediaFormats             Format                { get; set; }
-		public  MediaStatuses            Status                { get; set; }
-		public  string                   DescriptionMd         { get; set; }
-		public  string                   DescriptionHtml       { get; set; }
-		private FuzzyDate                _startDate            { get; set; }
-		private FuzzyDate                _endDate              { get; set; }
-		public  Seasons                  Season                { get; set; }
-		public  int?                     SeasonYear            { get; set; }
-		public  int?                     SeasonInt             { get; set; }
-		public  int?                     Episodes              { get; set; }
-		public  int?                     Duration              { get; set; }
-		public  int?                     Chapters              { get; set; }
-		public  int?                     Volumes               { get; set; }
-		public  string                   CountryOfOrigin       { get; set; }
-		public  bool                     IsLicensed            { get; set; }
-		public  MediaSources             Source                { get; set; }
-		public  string                   Hashtag               { get; set; }
-		public  MediaTrailer             Trailer               { get; set; }
-		public  int                      UpdatedAt             { get; set; }
-		private MediaCoverImage          _coverImage           { get; set; }
-		public  string                   CoverImageExtraLarge  => _coverImage.ExtraLarge;
-		public  string                   CoverImageLarge       => _coverImage.Large;
-		public  string                   CoverImageMedium      => _coverImage.Medium;
-		public  string                   CoverImageColour      => _coverImage.Color;
-		public  string                   BannerImage           { get; set; }
-		public  string[]                 Genres                { get; set; }
-		public  string[]                 Synonyms              { get; set; }
-		public  int                      AverageScore          { get; set; }
-		public  int                      MeanScore             { get; set; }
-		public  int                      Popularity            { get; set; }
-		public  bool                     IsLocked              { get; set; }
-		public  int                      Trending              { get; set; }
-		public  int                      Favourites            { get; set; }
-		public  MediaTag[]               Tags                  { get; set; }
-		private MediaConnection          _relations            { get; set; }
-		private CharacterConnection      _characters           { get; set; }
-		private StaffConnection          _staff                { get; set; }
-		private StudioConnection         _studios              { get; set; }
-		public  bool                     IsAdult               { get; set; }
-		public  AiringSchedule           NextAiringEpisode     { get; set; }
-		private AiringScheduleConnection _airingSchedule       { get; set; }
-		private MediaTrendConnection     _trends               { get; set; }
-		public  MediaExternalLink[]      ExternalLinks         { get; set; }
-		public  MediaStreamingEpisode[]  StreamingEpisodes     { get; set; }
-		public  MediaRanking[]           Rankings              { get; set; }
-		private ReviewConnection         _reviews              { get; set; }
-		private RecommendationConnection _recommendations      { get; set; }
-		public  MediaStats               Stats                 { get; set; }
-		public  string                   SiteUrl               { get; set; }
-		public  bool                     AutoCreateForumThread { get; set; }
-		public  string                   ModNotes              { get; set; }
+		private MediaTitle _mediaTitle { get; set; }
+
+		/// <summary>
+		///     The title in Romaji
+		/// </summary>
+		public string RomajiTitle => _mediaTitle.Romaji;
+
+		/// <summary>
+		///     The title in English
+		/// </summary>
+		public string EnglishTitle => _mediaTitle.English;
+
+		/// <summary>
+		///     The title in the native language (usually Japanese)
+		/// </summary>
+		public string NativeTitle => _mediaTitle.Native;
+
+		/// <summary>
+		///     The ID of the media
+		/// </summary>
+		public int Id { get; set; }
+
+		/// <summary>
+		///     The MyAnimeList ID of the media
+		/// </summary>
+		public int? IdMal { get; set; }
+
+		/// <summary>
+		///     The type of the media
+		/// </summary>
+		public MediaTypes Type { get; set; }
+
+		/// <summary>
+		///     The format of the media
+		/// </summary>
+		public MediaFormats Format { get; set; }
+
+		/// <summary>
+		///     The status of the media (airing, finished, etc)
+		/// </summary>
+		public MediaStatuses Status { get; set; }
+
+		/// <summary>
+		///     The description in Markdown
+		/// </summary>
+		public string DescriptionMd { get; set; }
+
+		/// <summary>
+		///     The description in HTML
+		/// </summary>
+		public string DescriptionHtml { get; set; }
+
+		private FuzzyDate _startDate { get; set; }
+		private FuzzyDate _endDate   { get; set; }
+
+		/// <summary>
+		///     The season the media is from
+		/// </summary>
+		public Seasons Season { get; set; }
+
+		/// <summary>
+		///     The year the media is from
+		/// </summary>
+		public int? SeasonYear { get; set; }
+
+		/// <summary>
+		///     The year and season in the format YYS
+		/// </summary>
+		public int? SeasonInt { get; set; }
+
+		/// <summary>
+		///     How many episodes there are
+		/// </summary>
+		public int? Episodes { get; set; }
+
+		/// <summary>
+		///     Roughly how long it takes to watch
+		/// </summary>
+		public int? Duration { get; set; }
+
+		/// <summary>
+		///     How many chapters it has
+		/// </summary>
+		public int? Chapters { get; set; }
+
+		/// <summary>
+		///     How many volumes it has
+		/// </summary>
+		public int? Volumes { get; set; }
+
+		/// <summary>
+		///     The country of origin as an ISO country code
+		/// </summary>
+		public string CountryOfOrigin { get; set; }
+
+		/// <summary>
+		///     Whether the media is licensed (i.e. by Funimation or Viz)
+		/// </summary>
+		public bool IsLicensed { get; set; }
+
+		/// <summary>
+		///     The source of the media (is it original? is it a manga adaptation?)
+		/// </summary>
+		public MediaSources Source { get; set; }
+
+		/// <summary>
+		///     Official Twitter hashtags
+		/// </summary>
+		public string Hashtag { get; set; }
+
+		/// <summary>
+		///     The trailer
+		/// </summary>
+		public MediaTrailer Trailer { get; set; }
+
+		/// <summary>
+		///     When the media was last updated
+		/// </summary>
+		public int UpdatedAt { get; set; }
+
+		private MediaCoverImage _coverImage { get; set; }
+
+		/// <summary>
+		///     The cover image URL (Extra Large)
+		/// </summary>
+		public string CoverImageExtraLarge => _coverImage.ExtraLarge;
+
+		/// <summary>
+		///     The cover image URL (Large)
+		/// </summary>
+		public string CoverImageLarge => _coverImage.Large;
+
+		/// <summary>
+		///     The cover image URL (Medium)
+		/// </summary>
+		public string CoverImageMedium => _coverImage.Medium;
+
+		/// <summary>
+		///     The cover image colour URL
+		/// </summary>
+		public string CoverImageColour => _coverImage.Color;
+
+		/// <summary>
+		///     The banner image URL
+		/// </summary>
+		public string BannerImage { get; set; }
+
+		/// <summary>
+		///     The genres of the media
+		/// </summary>
+		public string[] Genres { get; set; }
+
+		/// <summary>
+		///     Synonyms of the media
+		/// </summary>
+		public string[] Synonyms { get; set; }
+
+		/// <summary>
+		///     The weighted average score
+		/// </summary>
+		public int AverageScore { get; set; }
+
+		/// <summary>
+		///     The true mean average score
+		/// </summary>
+		public int MeanScore { get; set; }
+
+		/// <summary>
+		///     How popular the media is
+		/// </summary>
+		public int Popularity { get; set; }
+
+		/// <summary>
+		///     Is this media blocked from being added to lists etc? (usually items pending deletion)
+		/// </summary>
+		public bool IsLocked { get; set; }
+
+		/// <summary>
+		///     Trending rank
+		/// </summary>
+		public int Trending { get; set; }
+
+		/// <summary>
+		///     How many people have favourited the media
+		/// </summary>
+		public int Favourites { get; set; }
+
+		/// <summary>
+		///     The tags of the media
+		/// </summary>
+		public MediaTag[] Tags { get; set; }
+
+		private MediaConnection     _relations  { get; set; }
+		private CharacterConnection _characters { get; set; }
+		private StaffConnection     _staff      { get; set; }
+		private StudioConnection    _studios    { get; set; }
+
+		/// <summary>
+		///     Is this media adult only? (18+ content)
+		/// </summary>
+		public bool IsAdult { get; set; }
+
+		/// <summary>
+		///     If currently airing, the schedule for the next airing episode
+		/// </summary>
+		public AiringSchedule NextAiringEpisode { get; set; }
+
+		private AiringScheduleConnection _airingSchedule { get; set; }
+		private MediaTrendConnection     _trends         { get; set; }
+
+		/// <summary>
+		///     External links for this media
+		/// </summary>
+		public MediaExternalLink[] ExternalLinks { get; set; }
+
+		/// <summary>
+		///     Streaming episodes on sites like Crunchyroll, Hidive, etc
+		/// </summary>
+		public MediaStreamingEpisode[] StreamingEpisodes { get; set; }
+
+		/// <summary>
+		///     The rankings of the media
+		/// </summary>
+		public MediaRanking[] Rankings { get; set; }
+
+		private ReviewConnection         _reviews         { get; set; }
+		private RecommendationConnection _recommendations { get; set; }
+
+		/// <summary>
+		///     The media stats (score and status distribution)
+		/// </summary>
+		public MediaStats Stats { get; set; }
+
+		/// <summary>
+		///     The Anilist site URL
+		/// </summary>
+		public string SiteUrl { get; set; }
+
+		/// <summary>
+		///     Whether new episodes of this media auto create forum threads
+		/// </summary>
+		public bool AutoCreateForumThread { get; set; }
+
+		/// <summary>
+		///     Notes for the mods
+		/// </summary>
+		public string ModNotes { get; set; }
 
 		public DateTime StartDate => new DateTime(_startDate.Year, _startDate.Month, _startDate.Day);
 		public DateTime EndDate   => new DateTime(_endDate.Year,   _endDate.Month,   _endDate.Day);
