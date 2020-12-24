@@ -197,7 +197,7 @@ namespace Anilist4Net
 		/// </summary>
 		public MediaTag[] Tags { get; set; }
 
-		private MediaConnection     _relations  { get; set; }
+		private MediaEdgeConnection _relations  { get; set; }
 		private CharacterConnection _characters { get; set; }
 		private StaffConnection     _staff      { get; set; }
 		private StudioConnection    _studios    { get; set; }
@@ -273,6 +273,7 @@ namespace Anilist4Net
 		public int[] Reviews => _reviews.Nodes.Select(n => n.Id).ToArray();
 
 		public int[] Recommendations => _recommendations.Nodes.Select(n => n.Id).ToArray();
+		public int[] Characters      => _characters.Edges.Select(e => e.Node.Id).ToArray();
 	}
 
 	internal class MediaResponse
@@ -321,7 +322,7 @@ namespace Anilist4Net
 		public bool   IsAdult          { get; set; }
 	}
 
-	internal class MediaConnection
+	internal class MediaEdgeConnection
 	{
 		public MediaEdge[] Edges { get; set; }
 	}
