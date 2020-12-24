@@ -3,7 +3,7 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
 
 ```
 {
-  User (name: "Yellowsink") { 
+  User (name: "Yellowsink") { # my profile!
   id
   name
   aboutPlain: about(asHtml: false)
@@ -44,7 +44,7 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
   moderatorStatus
   updatedAt
 	}
-  Media (id: 1) {
+  Media (id: 1) { # Cowboy Bebop. Chosen purely for being id 1.
     id
     idMal
     title {
@@ -240,6 +240,22 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
     autoCreateForumThread
     isRecommendationBlocked
     modNotes
+  }
+  Review (id: 760){ # a review of Cowboy Bebop. chosen because it was convenient.
+    id
+    userId
+    mediaId
+    mediaType
+    summary
+    bodyMd: body(asHtml: false)
+    bodyHtml: body(asHtml: true)
+    rating
+    ratingAmount
+    score
+    private
+    siteUrl
+    createdAt
+    updatedAt
   }
 }
 ```
