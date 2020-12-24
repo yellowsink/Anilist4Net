@@ -392,4 +392,5 @@ namespace Anilist4Net
 	{
 		public MediaStatuses Status { get; set; }
 		public int           Amount { get; set; }
+	}
 }
