@@ -12,6 +12,12 @@ I couldn't figure out how to use this, let alone get anything back other than an
 Create a nice API for Anilist with documentation, and good ease of use
 
 ## TODO
+### Key
+- [x] = done
+- [-] = WIP
+- [ ] = to be done
+- [/] = will not be done
+### The list
 - [-] Documentation
 	* [x] XML-DOC inline with code
 	* [ ] Dedicated docs / wiki
@@ -38,12 +44,12 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [ ] Implement characters
 	* [ ] Classes
 	* [ ] Client functions
-- [ ] Implement airing schedule
-	* [ ] Classes
-	* [ ] Client functions
-- [ ] Implement media trends
-	* [ ] Classes
-	* [ ] Client functions
+- [x] Implement airing schedule
+	* [x] Classes
+	* [x] Client functions
+- [x] Implement media trends
+	* [x] Classes
+	* [/] Client functions
 - [x] Implement reviews
 	* [x] Classes
 	* [x] Client functions
