@@ -18,18 +18,26 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [ ] Unit Tests & CI
 	* [ ] Set up Buddy
 	* [ ] NUnit for users
-	* [ ] NUnit for anime
-	* [ ] NUnit for manga
+	* [ ] NUnit for media
+	* [ ] NUnit for trends
+	* [ ] NUnit for studios
+	* [ ] NUnit for staff
 	* [ ] NUnit for characters
 - [x] Implement users
-	* [x] Classes for Users
-	* [x] Client functions for users
-- [ ] Implement Anime
-	* [ ] Classes for anime
-	* [ ] Client functions for anime
-- [ ] Implement manga
-	* [ ] Classes for manga
-	* [ ] Client functions for manga
+	* [x] Classes
+	* [x] Client functions
+- [ ] Implement media
+	* [ ] Classes 
+	* [ ] Client functions
+- [ ] Implement trends
+	* [ ] Classes
+	* [ ] Client functions
+- [ ] Implement studios
+	* [ ] Classes
+	* [ ] Client functions
+- [ ] Implement staff
+	* [ ] Classes
+	* [ ] Client functions
 - [ ] Implement characters
 	* [ ] Classes for characters
 	* [ ] Client functions for characters
