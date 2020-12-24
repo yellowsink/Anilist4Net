@@ -59,7 +59,7 @@
 		/// <summary>
 		///     The color of the user's profile
 		/// </summary>
-		public UserProfileColors ProfileColor => Options.ProfileColor;
+		public UserProfileColors ProfileColour => Options.ProfileColor;
 
 		private UserMediaListOptions MediaListOptions { get; set; }
 
