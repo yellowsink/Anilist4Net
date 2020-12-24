@@ -1,4 +1,6 @@
-﻿namespace Anilist4Net
+﻿using Anilist4Net.Enums;
+
+namespace Anilist4Net
 {
 	public class Review
 	{
