@@ -313,5 +313,35 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
     siteUrl
     favourites
   }
+   Staff (id:98152) { # Yusei Matsui, Assassination Classroom manga author
+    id
+    name {
+      first
+      last
+      full
+      native
+    }
+    language
+    descriptionMd: description(asHtml: false)
+    descriptionHtml: description(asHtml: true)
+    siteUrl
+    staffMedia {
+      nodes {
+        id
+      }
+    }
+    characters {
+      nodes {
+        id
+      }
+    }
+    characterMedia {
+      nodes {
+        id
+      }
+    }
+    favourites
+    modNotes
+  }
 }
 ```
