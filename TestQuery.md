@@ -301,5 +301,17 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
     favourites
     modNotes
   }
+  Studio(id: 456){ # Studio Lerche because they made Assassination Classroom, my favourite anime ever
+    id
+    name
+    isAnimationStudio
+    media{
+      nodes{
+        id
+      }
+    }
+    siteUrl
+    favourites
+  }
 }
 ```
