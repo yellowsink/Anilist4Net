@@ -1,4 +1,6 @@
-﻿namespace Anilist4Net
+﻿using Anilist4Net.Connections;
+
+namespace Anilist4Net
 {
 	public class Recommendation
 	{

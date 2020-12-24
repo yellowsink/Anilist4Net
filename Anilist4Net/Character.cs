@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Anilist4Net.Connections;
 
 namespace Anilist4Net
 {
@@ -99,10 +100,5 @@ namespace Anilist4Net
 	{
 		public string Large  { get; set; }
 		public string Medium { get; set; }
-	}
-
-	internal class MediaNodeConnection
-	{
-		public MediaNodePlaceholder[] Nodes { get; set; }
 	}
 }

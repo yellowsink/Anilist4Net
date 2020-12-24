@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Anilist4Net.Connections;
 
 namespace Anilist4Net
 {
