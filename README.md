@@ -27,8 +27,8 @@ Create a nice API for Anilist with documentation, and good ease of use
 	* [x] Classes
 	* [x] Client functions
 - [ ] Implement media
-	* [ ] Classes 
-	* [ ] Client functions
+	* [-] Classes 
+	* [x] Client functions
 - [ ] Implement trends
 	* [ ] Classes
 	* [ ] Client functions
@@ -39,5 +39,14 @@ Create a nice API for Anilist with documentation, and good ease of use
 	* [ ] Classes
 	* [ ] Client functions
 - [ ] Implement characters
-	* [ ] Classes for characters
-	* [ ] Client functions for characters
+	* [ ] Classes
+	* [ ] Client functions
+- [ ] Implement airing schedule
+	* [ ] Classes
+	* [ ] Client functions
+- [ ] Implement media trends
+	* [ ] Classes
+	* [ ] Client functions
+- [ ] Implement reviews
+	* [ ] Classes
+	* [ ] Client functions
