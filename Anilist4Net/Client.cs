@@ -206,16 +206,6 @@ namespace Anilist4Net
     recommendations {
       nodes {
         id
-        rating
-        media {
-          id
-        }
-        mediaRecommendation {
-          id
-        }
-        user {
-          id
-        }
       }
     }
     stats {
