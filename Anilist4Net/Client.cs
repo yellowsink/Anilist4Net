@@ -289,6 +289,19 @@ namespace Anilist4Net
 	modNotes
 }";
 
+		private static readonly string StudioQueryReturn = @"{
+	id
+	name
+	isAnimationStudio
+	media{
+		nodes{
+			id
+		}
+	}
+	siteUrl
+	favourites
+}";
+
 		public async Task<User> GetUserByName(string username)
 		{
 			var query         = $"query ($username: String) {{ User (name: $username) {UserQueryReturn} }}";
@@ -371,7 +384,7 @@ namespace Anilist4Net
 
 		public async Task<Studio> GetStudioById(int id)
 		{
-			var query         = $"query ($id: Int) {{ Studio (id: $id) {CharacterQueryReturn} }}";
+			var query         = $"query ($id: Int) {{ Studio (id: $id) {StudioQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
