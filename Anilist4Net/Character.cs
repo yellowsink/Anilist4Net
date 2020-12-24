@@ -81,6 +81,11 @@ namespace Anilist4Net
 		public string ModNotes { get; set; }
 	}
 
+	internal class CharacterResponse
+	{
+		public Character Character { get; set; }
+	}
+
 	internal class CharacterName
 	{
 		public string   First       { get; set; }
