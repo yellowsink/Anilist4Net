@@ -184,7 +184,19 @@
 
 	internal class MediaTrendConnection
 	{
-		// public MediaTrend[] Nodes { get; set; }
+		public MediaTrend[] Nodes { get; set; }
+	}
+
+	public class MediaTrend
+	{
+		public int MediaId      { get; set; }
+		public int Date         { get; set; }
+		public int Trending     { get; set; }
+		public int AverageScore { get; set; }
+		public int Popularity   { get; set; }
+		public int InProgress   { get; set; }
+		public int Releasing    { get; set; }
+		public int Episode      { get; set; }
 	}
 
 	public class MediaExternalLink

@@ -251,6 +251,14 @@ namespace Anilist4Net
 		updatedAt
 }";
 
+		private static readonly string AiringScheduleQueryReturn = @"{
+	id
+	airingAt
+	timeUntilAiring
+	episode
+	mediaId
+}";
+
 		public async Task<User> GetUserByName(string username)
 		{
 			var query         = $"query ($username: String) {{ User (name: $username) {UserQueryReturn} }}";
@@ -304,6 +312,17 @@ namespace Anilist4Net
 			var response = await graphQlClient.SendQueryAsync<ReviewResponse>(request);
 
 			return response.Data.Review;
+		}
+
+		public async Task<AiringSchedule> GetAiringScheduleById(int id)
+		{
+			var query         = $"query ($id: int) {{ AiringSchedule (id: $id) {AiringScheduleQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+
+			var response = await graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
+
+			return response.Data.AiringSchedule;
 		}
 	}
 }
