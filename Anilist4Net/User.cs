@@ -1,4 +1,6 @@
-﻿namespace Anilist4Net
+﻿using Anilist4Net.Enums;
+
+namespace Anilist4Net
 {
 	public class User
 	{
@@ -168,38 +170,4 @@
 		/// </summary>
 		public bool AdvancedScoringEnabled { get; set; }
 	}
-
-	// ReSharper disable InconsistentNaming
-	// ReSharper disable IdentifierTypo
-	public enum ScoreFormats
-	{
-		POINT_100,
-		POINT_10_DECIMAL,
-		POINT_10,
-		POINT_5,
-		POINT_3
-	}
-
-	public enum UserTitleLanguages
-	{
-		ROMAJI,
-		ENGLISH,
-		NATIVE,
-		ROMAJI_STYLISED,
-		ENGLISH_STYLISED,
-		NATIVE_STYLISED
-	}
-
-	public enum UserProfileColors
-	{
-		blue,
-		purple,
-		pink,
-		orange,
-		red,
-		green,
-		gray
-	}
-	// ReSharper restore IdentifierTypo
-	// ReSharper restore InconsistentNaming
 }

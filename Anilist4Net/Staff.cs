@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Anilist4Net.Connections;
+using Anilist4Net.Enums;
 
 namespace Anilist4Net
 {
@@ -25,20 +26,4 @@ namespace Anilist4Net
 	{
 		public Staff Staff { get; set; }
 	}
-
-	// ReSharper disable InconsistentNaming
-	public enum StaffLanguages
-	{
-		JAPANESE,
-		ENGLISH,
-		KOREAN,
-		ITALIAN,
-		SPANISH,
-		PORTUGUESE,
-		FRENCH,
-		GERMAN,
-		HEBREW,
-		HUNGARIAN
-	}
-	// ReSharper restore InconsistentNaming
 }

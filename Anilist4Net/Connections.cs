@@ -1,4 +1,6 @@
-﻿namespace Anilist4Net.Connections
+﻿using Anilist4Net.Enums;
+
+namespace Anilist4Net.Connections
 {
 	internal class MediaEdgeConnection
 	{

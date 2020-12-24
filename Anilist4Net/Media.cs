@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Anilist4Net.Connections;
+using Anilist4Net.Enums;
 
 namespace Anilist4Net
 {
@@ -391,76 +392,4 @@ namespace Anilist4Net
 	{
 		public MediaStatuses Status { get; set; }
 		public int           Amount { get; set; }
-	}
-
-	// ReSharper disable InconsistentNaming
-	// ReSharper disable IdentifierTypo
-	public enum MediaTypes
-	{
-		ANIME,
-		MANGA
-	}
-
-	public enum MediaFormats
-	{
-		TV,
-		TV_SHORT,
-		MOVIE,
-		SPECIAL,
-		OVA,
-		ONA,
-		MUSIC,
-		MANGA,
-		NOVEL,
-		ONE_SHOT
-	}
-
-	public enum MediaStatuses
-	{
-		FINISHED,
-		RELEASING,
-		NOT_YET_RELEASED,
-		CANCELLED,
-		HIATUS
-	}
-
-	public enum Seasons
-	{
-		WINTER,
-		SPRING,
-		SUMMER,
-		AUGUST
-	}
-
-	public enum MediaSources
-	{
-		ORIGINAL,
-		MANGA,
-		LIGHT_NOVEL,
-		VISUAL_NOVEL,
-		VIDEO_GAME,
-		OTHER,
-		NOVEL,
-		DOUJINSHI,
-		ANIME
-	}
-
-	public enum MediaRelationType
-	{
-		ADAPTATION,
-		PREQUEL,
-		SEQUEL,
-		PARENT,
-		SIDE_STORY,
-		CHARACTER,
-		SUMMARY,
-		ALTERNATIVE,
-		SPIN_OFF,
-		OTHER,
-		SOURCE,
-		COMPILATION,
-		CONTAINS
-	}
-	// ReSharper restore IdentifierTypo
-	// ReSharper restore InconsistentNaming
 }
