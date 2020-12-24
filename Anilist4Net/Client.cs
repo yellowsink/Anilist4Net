@@ -201,19 +201,6 @@ namespace Anilist4Net
     reviews {
       nodes {
         id
-        userId
-        mediaId
-        mediaType
-        summary
-        bodyMd: body(asHtml: false)
-        bodyHtml: body(asHtml: true)
-        rating
-        ratingAmount
-        score
-        private
-        siteUrl
-        createdAt
-        updatedAt
       }
     }
     recommendations {
@@ -245,7 +232,24 @@ namespace Anilist4Net
     autoCreateForumThread
     isRecommendationBlocked
     modNotes
-  }";
+}";
+
+		private static readonly string ReviewQueryReturn = @"{
+		id
+		userId
+		mediaId
+		mediaType
+		summary
+		bodyMd: body(asHtml: false)
+		bodyHtml: body(asHtml: true)
+		rating
+		ratingAmount
+		score
+		private
+		siteUrl
+		createdAt
+		updatedAt
+}";
 
 		public async Task<User> GetUserByName(string username)
 		{
@@ -269,22 +273,37 @@ namespace Anilist4Net
 			return response.Data.User;
 		}
 
-		public async Task GetMediaById(int id)
+		public async Task<Media> GetMediaById(int id)
 		{
 			var query         = $"query ($id: int) {{ Media (id: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 
 			var response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+
+			return response.Data.Media;
 		}
 
-		public async Task GetMediaByMalId(int id)
+		public async Task<Media> GetMediaByMalId(int id)
 		{
 			var query         = $"query ($id: int) {{ Media (idMal: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 
 			var response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+
+			return response.Data.Media;
+		}
+
+		public async Task<Review> GetReviewById(int id)
+		{
+			var query         = $"query ($id: int) {{ Review (id: $id) {ReviewQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+
+			var response = await graphQlClient.SendQueryAsync<ReviewResponse>(request);
+
+			return response.Data.Review;
 		}
 	}
 }

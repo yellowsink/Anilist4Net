@@ -216,7 +216,12 @@
 
 	internal class ReviewConnection
 	{
-		// public Review[] Nodes { get; set; }
+		public ReviewNodePlaceholder[] Nodes { get; set; }
+	}
+
+	internal class ReviewNodePlaceholder
+	{
+		public int Id { get; set; }
 	}
 
 	internal class ReccomendationConnection
