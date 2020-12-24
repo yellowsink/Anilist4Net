@@ -41,9 +41,9 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [ ] Implement staff
 	* [ ] Classes
 	* [ ] Client functions
-- [ ] Implement characters
-	* [ ] Classes
-	* [ ] Client functions
+- [x] Implement characters
+	* [x] Classes
+	* [x] Client functions
 - [x] Implement airing schedule
 	* [x] Classes
 	* [x] Client functions
