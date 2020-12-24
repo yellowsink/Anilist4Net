@@ -257,5 +257,12 @@ Use this test query [here](https://anilist.co/graphiql) to get an example API re
     createdAt
     updatedAt
   }
+  AiringSchedule (id: 293185) { # an episode of HYPNOSISMIC cause I needed something currently airing
+    id
+    airingAt
+    timeUntilAiring
+    episode
+    mediaId
+  }
 }
 ```
