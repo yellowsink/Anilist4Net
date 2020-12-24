@@ -302,6 +302,37 @@ namespace Anilist4Net
 	favourites
 }";
 
+		private static readonly string StaffQueryReturn = @"{
+	id
+	name {
+		first
+		last
+		full
+		native
+	}
+	language
+	descriptionMd: description(asHtml: false)
+	descriptionHtml: description(asHtml: true)
+	siteUrl
+	staffMedia {
+		nodes {
+			id
+		}
+	}
+	characters {
+		nodes {
+			id
+		}
+	}
+	characterMedia {
+		nodes {
+			id
+		}
+	}
+	favourites
+	modNotes
+}";
+
 		public async Task<User> GetUserByName(string username)
 		{
 			var query         = $"query ($username: String) {{ User (name: $username) {UserQueryReturn} }}";
@@ -390,6 +421,16 @@ namespace Anilist4Net
 			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
 
 			return response.Data.Studio;
+		}
+
+		public async Task<Staff> GetStaffById(int id)
+		{
+			var query         = $"query ($id: Int) {{ Staff (id: $id) {StaffQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
+
+			return response.Data.Staff;
 		}
 	}
 }
