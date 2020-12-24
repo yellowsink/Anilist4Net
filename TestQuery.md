@@ -1,7 +1,7 @@
 # Test Query
 Use this test query [here](https://anilist.co/graphiql) to get an example API response with all query types.
 
-```
+```graphql
 {
   User (name: "Yellowsink") { # my profile!
   id
