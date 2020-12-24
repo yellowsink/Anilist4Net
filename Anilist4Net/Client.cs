@@ -368,5 +368,15 @@ namespace Anilist4Net
 
 			return response.Data.Character;
 		}
+
+		public async Task<Studio> GetStudioById(int id)
+		{
+			var query         = $"query ($id: Int) {{ Studio (id: $id) {CharacterQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
+
+			return response.Data.Studio;
+		}
 	}
 }
