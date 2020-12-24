@@ -24,7 +24,7 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [-] Unit Tests & CI
 	* [x] Set up Buddy
 	* [ ] NUnit for users
-	* [ ] NUnit for media
+	* [-] NUnit for media
 	* [ ] NUnit for trends
 	* [ ] NUnit for studios
 	* [ ] NUnit for staff
