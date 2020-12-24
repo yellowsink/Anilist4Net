@@ -249,6 +249,21 @@ namespace Anilist4Net
 	mediaId
 }";
 
+		private static readonly string RecommendationQueryReturn = @"{
+	id
+	rating
+	userRating
+	media {
+		id
+	}
+	mediaRecommendation {
+		id
+	}
+	user {
+		id
+	}
+}";
+
 		public async Task<User> GetUserByName(string username)
 		{
 			var query         = $"query ($username: String) {{ User (name: $username) {UserQueryReturn} }}";
@@ -313,6 +328,17 @@ namespace Anilist4Net
 			var response = await graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
 
 			return response.Data.AiringSchedule;
+		}
+
+		public async Task<Recommendation> GetRecommendationById(int id)
+		{
+			var query         = $"query ($id: int) {{ Recommendation (id: $id) {RecommendationQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+
+			var response = await graphQlClient.SendQueryAsync<RecommendationResponse>(request);
+
+			return response.Data.Recommendation;
 		}
 	}
 }
