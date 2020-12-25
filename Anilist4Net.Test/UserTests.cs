@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿// ReSharper disable RedundantUsingDirective
+using Anilist4Net.Enums;
+// ReSharper restore RedundantUsingDirective
+using System.Threading.Tasks;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
 
