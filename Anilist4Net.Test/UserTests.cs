@@ -23,8 +23,9 @@ namespace Anilist4Net.Test
 			var client = new Client();
 			var user   = !useUsername ? await client.GetUserById(668126) : await client.GetUserByName("Yellowsink");
 
-			// The info in these test are likely to change. Make sure to fetch up-to-date info first! Remove the comment to enable the tests
-			/*
+			// The info in these test are likely to change. Make sure to fetch up-to-date info first!
+
+			// PUT A BLOCK COMMENT HERE TO DISABLE
 			AreEqual(668126,       user.Id);
 			AreEqual("Yellowsink", user.Name);
 			IsNull(user.AboutMd);
@@ -52,7 +53,7 @@ namespace Anilist4Net.Test
 
 			if (false)
 				// */
-			Inconclusive("The test is commented out");
+				Inconclusive("The test is commented out");
 		}
 	}
 }
