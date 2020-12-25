@@ -45,7 +45,9 @@ namespace Anilist4Net.Test
 			Assert.AreEqual("Donator",                        user.DonatorBadge);
 			Assert.IsNull(user.ModeratorStatus);
 
-			// */
+			if (false)
+				// */
+			Assert.Inconclusive("The test is commented out");
 		}
 	}
 }
