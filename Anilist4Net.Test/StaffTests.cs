@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Anilist4Net.Enums;
 using NUnit.Framework;
+using static NUnit.Framework.Assert;
 
 namespace Anilist4Net.Test
 {
@@ -13,20 +14,20 @@ namespace Anilist4Net.Test
 			var client = new Client();
 			var staff  = await client.GetStaffById(98152);
 
-			Assert.AreEqual(98152,                            staff.Id);
-			Assert.AreEqual("Yuusei",                         staff.Name.First);
-			Assert.AreEqual("Matsui",                         staff.Name.Last);
-			Assert.AreEqual("Yuusei Matsui",                  staff.Name.Full);
-			Assert.AreEqual("松井優征",                           staff.Name.Native);
-			Assert.AreEqual(StaffLanguages.JAPANESE,          staff.Language);
-			Assert.AreEqual("https://anilist.co/staff/98152", staff.SiteUrl);
-			Assert.Contains(2985,  staff.StaffMediaIds); // just the first 4 that appeared on the query
-			Assert.Contains(19759, staff.StaffMediaIds);
-			Assert.Contains(20755, staff.StaffMediaIds);
-			Assert.Contains(21170, staff.StaffMediaIds);
-			Assert.IsEmpty(staff.CharacterIds);
-			Assert.IsEmpty(staff.CharacterMediaIds);
-			Assert.IsNull(staff.ModNotes);
+			AreEqual(98152,                            staff.Id);
+			AreEqual("Yuusei",                         staff.Name.First);
+			AreEqual("Matsui",                         staff.Name.Last);
+			AreEqual("Yuusei Matsui",                  staff.Name.Full);
+			AreEqual("松井優征",                           staff.Name.Native);
+			AreEqual(StaffLanguages.JAPANESE,          staff.Language);
+			AreEqual("https://anilist.co/staff/98152", staff.SiteUrl);
+			Contains(2985,  staff.StaffMediaIds); // just the first 4 that appeared on the query
+			Contains(19759, staff.StaffMediaIds);
+			Contains(20755, staff.StaffMediaIds);
+			Contains(21170, staff.StaffMediaIds);
+			IsEmpty(staff.CharacterIds);
+			IsEmpty(staff.CharacterMediaIds);
+			IsNull(staff.ModNotes);
 		}
 	}
 }

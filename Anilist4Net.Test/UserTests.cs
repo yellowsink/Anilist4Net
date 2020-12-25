@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
+using static NUnit.Framework.Assert;
 
 namespace Anilist4Net.Test
 {
@@ -20,34 +21,34 @@ namespace Anilist4Net.Test
 
 			// The info in these test are likely to change. Make sure to fetch up-to-date info first! Remove the comment to enable the tests
 			/*
-			Assert.AreEqual(668126,       user.Id);
-			Assert.AreEqual("Yellowsink", user.Name);
-			Assert.IsNull(user.AboutMd);
-			Assert.IsNull(user.AboutHtml);
-			Assert.AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/large/b668126-VYzGU0Un5il8.jpg",
-			                user.LargeAvatar);
-			Assert.AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b668126-VYzGU0Un5il8.jpg",
-			                user.MediumAvatar);
-			Assert.AreEqual("https://s4.anilist.co/file/anilistcdn/user/banner/b668126-U4RJk8NvjQOs.jpg",
-			                user.BannerImage);
-			Assert.AreEqual(UserTitleLanguages.ENGLISH, user.TitleLanguage);
-			Assert.IsTrue(user.DisplayAdultContent);
-			Assert.IsTrue(user.AiringNotifications);
-			Assert.AreEqual(UserProfileColours.green, user.ProfileColour);
-			Assert.AreEqual(ScoreFormats.POINT_100,   user.ScoreFormat);
-			Assert.AreEqual("score",                  user.RowOrder);
-			Assert.IsFalse(user.AnimeList.SplitCompletedSectionByFormat);
-			Assert.IsFalse(user.AnimeList.AdvancedScoringEnabled);
-			Assert.IsFalse(user.MangaList.SplitCompletedSectionByFormat);
-			Assert.IsFalse(user.MangaList.AdvancedScoringEnabled);
-			Assert.AreEqual("https://anilist.co/user/668126", user.SiteUrl);
-			Assert.AreEqual(0,                                user.DonatorTier);
-			Assert.AreEqual("Donator",                        user.DonatorBadge);
-			Assert.IsNull(user.ModeratorStatus);
+			AreEqual(668126,       user.Id);
+			AreEqual("Yellowsink", user.Name);
+			IsNull(user.AboutMd);
+			IsNull(user.AboutHtml);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/large/b668126-VYzGU0Un5il8.jpg",
+			         user.LargeAvatar);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b668126-VYzGU0Un5il8.jpg",
+			         user.MediumAvatar);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/user/banner/b668126-U4RJk8NvjQOs.jpg",
+			         user.BannerImage);
+			AreEqual(UserTitleLanguages.ENGLISH, user.TitleLanguage);
+			IsTrue(user.DisplayAdultContent);
+			IsTrue(user.AiringNotifications);
+			AreEqual(UserProfileColours.green, user.ProfileColour);
+			AreEqual(ScoreFormats.POINT_100,   user.ScoreFormat);
+			AreEqual("score",                  user.RowOrder);
+			IsFalse(user.AnimeList.SplitCompletedSectionByFormat);
+			IsFalse(user.AnimeList.AdvancedScoringEnabled);
+			IsFalse(user.MangaList.SplitCompletedSectionByFormat);
+			IsFalse(user.MangaList.AdvancedScoringEnabled);
+			AreEqual("https://anilist.co/user/668126", user.SiteUrl);
+			AreEqual(0,                                user.DonatorTier);
+			AreEqual("Donator",                        user.DonatorBadge);
+			IsNull(user.ModeratorStatus);
 
 			if (false)
 				// */
-			Assert.Inconclusive("The test is commented out");
+			Inconclusive("The test is commented out");
 		}
 	}
 }
