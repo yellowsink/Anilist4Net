@@ -8,11 +8,12 @@ namespace Anilist4Net.Test
 	[TestFixture]
 	public class StaffTests
 	{
-		[Test]
-		public async Task YuseiMatsuiTest() // Author of Assassination Classroom manga
+		[TestCase(TestName       = "ID Test")]
+		[TestCase(true, TestName = "Search Test")]
+		public async Task YuseiMatsuiTest(bool search = false) // Author of Assassination Classroom manga
 		{
 			var client = new Client();
-			var staff  = await client.GetStaffById(98152);
+			var staff  = search ? await client.GetStaffBySearch("yuusei matsui") : await client.GetStaffById(98152);
 
 			AreEqual(98152,                            staff.Id);
 			AreEqual("Yuusei",                         staff.Name.First);

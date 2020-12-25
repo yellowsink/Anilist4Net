@@ -1,4 +1,5 @@
 ﻿// ReSharper disable RedundantUsingDirective
+
 using Anilist4Net.Enums;
 // ReSharper restore RedundantUsingDirective
 using System.Threading.Tasks;
@@ -15,8 +16,8 @@ namespace Anilist4Net.Test
 
 		// Use a parameter to use username instead of ID. I did this because I didn't want
 		// to write my Assert.___() functions twice.
-		[TestCase(true, Description = "Username Test")]
-		[TestCase(Description       = "ID Test")]
+		[TestCase(true, TestName = "Username Test")]
+		[TestCase(TestName       = "ID Test")]
 		public async Task YellowsinkTest(bool useUsername = false) // Me!!!
 		{
 			var client = new Client();

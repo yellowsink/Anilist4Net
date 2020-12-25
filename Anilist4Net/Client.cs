@@ -432,10 +432,30 @@ namespace Anilist4Net
 			return response.Data.Studio;
 		}
 
+		public async Task<Studio> GetStudioBySearch(string search)
+		{
+			var query         = $"query ($search: String) {{ Studio (search: $search) {StudioQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
+
+			return response.Data.Studio;
+		}
+
 		public async Task<Staff> GetStaffById(int id)
 		{
 			var query         = $"query ($id: Int) {{ Staff (id: $id) {StaffQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
+
+			return response.Data.Staff;
+		}
+
+		public async Task<Staff> GetStaffBySearch(string search)
+		{
+			var query         = $"query ($search: String) {{ Staff (search: $search) {StaffQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
 
