@@ -118,7 +118,7 @@ namespace Anilist4Net
 
 	public class UserResponse
 	{
-		public User User;
+		public User User { get; set; }
 	}
 
 	public class UserAvatar
