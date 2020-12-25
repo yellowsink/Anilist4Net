@@ -65,7 +65,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The season the media is from
 		/// </summary>
-		public Seasons Season { get; set; }
+		public Seasons? Season { get; set; }
 
 		/// <summary>
 		///     The year the media is from
