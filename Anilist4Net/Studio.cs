@@ -20,7 +20,7 @@ namespace Anilist4Net
 		/// </summary>
 		public bool IsAnimationStudio { get; set; }
 
-		private MediaNodeConnection Media { get; set; }
+		public MediaNodeConnection Media { get; set; }
 
 		/// <summary>
 		///     The IDs of media the studio has worked on
