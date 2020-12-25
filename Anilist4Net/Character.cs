@@ -10,7 +10,7 @@ namespace Anilist4Net
 		/// </summary>
 		public int Id { get; set; }
 
-		private MultiLanguageName Name { get; set; }
+		public MultiLanguageName Name { get; set; }
 
 		/// <summary>
 		///     The character's Romaji first name
@@ -25,7 +25,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The character's Romaji name
 		/// </summary>
-		public string FullName => Name.First;
+		public string FullName => Name.Full;
 
 		/// <summary>
 		///     The character's native name (usually Japanese)
@@ -37,7 +37,7 @@ namespace Anilist4Net
 		/// </summary>
 		public string[] AlternativeNames => Name.Alternative;
 
-		private CharacterImage Image { get; set; }
+		public CharacterImage Image { get; set; }
 
 		/// <summary>
 		///     The character's image URL (large)
@@ -64,12 +64,12 @@ namespace Anilist4Net
 		/// </summary>
 		public string SiteUrl { get; set; }
 
-		private MediaNodeConnection MediaEdge { get; set; }
+		public MediaNodeConnection Media { get; set; }
 
 		/// <summary>
 		///     The IDs of media this character is in
 		/// </summary>
-		public int?[] MediaIds => MediaEdge.Nodes.Select(n => n.Id).Cast<int?>().ToArray();
+		public int?[] MediaIds => Media.Nodes.Select(n => n.Id).Cast<int?>().ToArray();
 
 		/// <summary>
 		///     How many users have favourited this character

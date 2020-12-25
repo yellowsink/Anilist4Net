@@ -413,6 +413,16 @@ namespace Anilist4Net
 			return response.Data.Character;
 		}
 
+		public async Task<Character> GetCharacterBySearch(string search)
+		{
+			var query         = $"query ($search: String) {{ Character (search: $search) {CharacterQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<CharacterResponse>(request);
+
+			return response.Data.Character;
+		}
+
 		public async Task<Studio> GetStudioById(int id)
 		{
 			var query         = $"query ($id: Int) {{ Studio (id: $id) {StudioQueryReturn} }}";
