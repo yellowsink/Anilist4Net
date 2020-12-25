@@ -36,7 +36,7 @@ namespace Anilist4Net.Enums
 		NATIVE_STYLISED
 	}
 
-	public enum UserProfileColors
+	public enum UserProfileColours
 	{
 		blue,
 		purple,
