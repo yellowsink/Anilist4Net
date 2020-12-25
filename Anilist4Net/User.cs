@@ -132,7 +132,7 @@ namespace Anilist4Net
 		public UserTitleLanguages TitleLanguage       { get; set; }
 		public bool               DisplayAdultContent { get; set; }
 		public bool               AiringNotifications { get; set; }
-		public UserProfileColors  ProfileColor        { get; set; }
+		public UserProfileColours ProfileColor        { get; set; }
 	}
 
 	public class UserMediaListOptions
