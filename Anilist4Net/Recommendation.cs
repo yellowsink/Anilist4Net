@@ -14,24 +14,26 @@ namespace Anilist4Net
 		/// </summary>
 		public int Rating { get; set; }
 
-		private MediaNodePlaceholder _media { get; set; }
+		public MediaNodePlaceholder Media { get; set; }
 
 		/// <summary>
 		///     The ID of the media the recommendation is from
 		/// </summary>
-		public int MediaId => _media.Id;
+		public int MediaId => Media.Id;
 
-		private MediaNodePlaceholder _mediaRecommendation { get; set; }
+		public MediaNodePlaceholder MediaRecommendation { get; set; }
 
 		/// <summary>
 		///     The ID of the media being recommended
 		/// </summary>
-		public int MediaRecommendationId => _mediaRecommendation.Id;
+		public int MediaRecommendationId => MediaRecommendation.Id;
+
+		public UserPlaceholder User { get; set; }
 
 		/// <summary>
 		///     The ID of the user making the recommendation
 		/// </summary>
-		public int UserId { get; set; }
+		public int UserId => User.Id;
 	}
 
 	public class RecommendationResponse
