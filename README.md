@@ -21,7 +21,7 @@ Create a nice API for Anilist with documentation, and good ease of use
 - [-] Documentation
 	* [x] XML-DOC inline with code
 	* [ ] Dedicated docs / wiki
-- [-] Unit Tests & CI
+- [x] Unit Tests & CI
 	* [x] Set up Buddy
 	* [x] NUnit for users
 	* [x] NUnit for media
@@ -29,7 +29,7 @@ Create a nice API for Anilist with documentation, and good ease of use
 	* [x] NUnit for staff
 	* [x] NUnit for characters
 	* [x] NUnit for airing schedule
-	* [ ] NUnit for reviews
+	* [x] NUnit for reviews
 	* [x] NUnit for recommendations
 - [x] Implement users
 	* [x] Classes
