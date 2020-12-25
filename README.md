@@ -20,7 +20,7 @@ Create a nice API for Anilist with documentation, and good ease of use
 ### The list
 - [-] Documentation
 	* [x] XML-DOC inline with code
-	* [ ] Dedicated docs / wiki
+	* [-] Dedicated docs / wiki
 - [x] Unit Tests & CI
 	* [x] Set up Buddy
 	* [x] NUnit for users
