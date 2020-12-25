@@ -10,7 +10,7 @@ namespace Anilist4Net
 		/// </summary>
 		public int Id { get; set; }
 
-		private CharacterName Name { get; set; }
+		private MultiLanguageName Name { get; set; }
 
 		/// <summary>
 		///     The character's Romaji first name
@@ -87,7 +87,7 @@ namespace Anilist4Net
 		public Character Character { get; set; }
 	}
 
-	public class CharacterName
+	public class MultiLanguageName
 	{
 		public string   First       { get; set; }
 		public string   Last        { get; set; }
