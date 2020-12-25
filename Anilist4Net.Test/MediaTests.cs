@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Anilist4Net.Test
 {
+	[TestFixture]
 	public class MediaTests
 	{
 		[Test]
@@ -53,7 +54,25 @@ namespace Anilist4Net.Test
 			                       .Where(r => r.MediaId == 5 && r.RelationType == MediaRelationType.SIDE_STORY)
 			                       .ToArray());
 			Assert.Contains(1, media.MediaCharacters);
-			// TODO: test entire query response (except stuff like score that changes)
+			Assert.IsNotEmpty(media.Staff.Edges.Select(e => e.Node.Id == 95269 && e.Role == "ADR Director"));
+			Assert.IsNotEmpty(media.Studios.Edges.Select(e => e.Node.Id == 14 && e.IsMain));
+			Assert.IsFalse(media.IsAdult);
+			Assert.IsNull(media.NextAiringEpisode);
+			Assert.IsEmpty(media.MediaAiringSchedule);
+			Assert.IsNotEmpty(media.ExternalLinks.Select(l => l.Id == 823
+			                                               && l.Url == "http://www.hulu.com/cowboy-bebop"
+			                                               && l.Site == "Hulu"));
+			Assert.IsNotEmpty(media.StreamingEpisodes.Select(e => e.Title == "Episode 1 - Asteroid Blues"
+			                                                   && e.Thumbnail ==
+			                                                      "https://img1.ak.crunchyroll.com/i/spire2-tmb/e3a45e86c597fe16f02d29efcadedcd81473268732_full.jpg"
+			                                                   && e.Url ==
+			                                                      "http://www.crunchyroll.com/cowboy-bebop/episode-1-asteroid-blues-719653"
+			                                                   && e.Site == "Crunchyroll"));
+			// can't test recommendations, etc as they dynamically change, as they are based on (or literally *are*) user activity
+			Assert.AreEqual("https://anilist.co/anime/1", media.SiteUrl);
+			Assert.IsFalse(media.AutoCreateForumThread);
+			Assert.IsFalse(media.IsRecommendationBlocked);
+			Assert.IsNull(media.ModNotes);
 		}
 	}
 }

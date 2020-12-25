@@ -251,6 +251,11 @@ namespace Anilist4Net
 		public bool AutoCreateForumThread { get; set; }
 
 		/// <summary>
+		///     Is the media blocked from being recommended from / to?
+		/// </summary>
+		public bool IsRecommendationBlocked { get; set; }
+
+		/// <summary>
 		///     Notes for the mods
 		/// </summary>
 		public string ModNotes { get; set; }
