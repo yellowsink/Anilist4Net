@@ -365,7 +365,7 @@ namespace Anilist4Net
 
 		public async Task<Media> GetMediaByMalId(int id)
 		{
-			var query         = $"query ($id: int) {{ Media (idMal: $id) {MediaQueryReturn} }}";
+			var query         = $"query ($id: Int) {{ Media (idMal: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
@@ -375,7 +375,7 @@ namespace Anilist4Net
 
 		public async Task<Review> GetReviewById(int id)
 		{
-			var query         = $"query ($id: int) {{ Review (id: $id) {ReviewQueryReturn} }}";
+			var query         = $"query ($id: Int) {{ Review (id: $id) {ReviewQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<ReviewResponse>(request);
@@ -385,7 +385,7 @@ namespace Anilist4Net
 
 		public async Task<AiringSchedule> GetAiringScheduleById(int id)
 		{
-			var query         = $"query ($id: int) {{ AiringSchedule (id: $id) {AiringScheduleQueryReturn} }}";
+			var query         = $"query ($id: Int) {{ AiringSchedule (id: $id) {AiringScheduleQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
@@ -395,7 +395,7 @@ namespace Anilist4Net
 
 		public async Task<Recommendation> GetRecommendationById(int id)
 		{
-			var query         = $"query ($id: int) {{ Recommendation (id: $id) {RecommendationQueryReturn} }}";
+			var query         = $"query ($id: Int) {{ Recommendation (id: $id) {RecommendationQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<RecommendationResponse>(request);
