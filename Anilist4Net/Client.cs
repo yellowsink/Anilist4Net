@@ -252,7 +252,6 @@ namespace Anilist4Net
 		private static readonly string RecommendationQueryReturn = @"{
 	id
 	rating
-	userRating
 	media {
 		id
 	}
