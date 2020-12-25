@@ -24,7 +24,7 @@ namespace Anilist4Net
 		/// </summary>
 		public string AboutHtml { get; set; }
 
-		private UserAvatar Avatar { get; set; }
+		public UserAvatar Avatar { get; set; }
 
 		/// <summary>
 		///     The user's avatar URL, large size
@@ -32,16 +32,16 @@ namespace Anilist4Net
 		public string LargeAvatar => Avatar.Large;
 
 		/// <summary>
-		///     The user's avatar URL, small size
+		///     The user's avatar URL, medium size
 		/// </summary>
-		public string SmallAvatar => Avatar.Small;
+		public string MediumAvatar => Avatar.Medium;
 
 		/// <summary>
 		///     The user's banner image URL
 		/// </summary>
 		public string BannerImage { get; set; }
 
-		private UserOptions Options { get; set; }
+		public UserOptions Options { get; set; }
 
 		/// <summary>
 		///     What language the user likes titles to be displayed in
@@ -61,9 +61,9 @@ namespace Anilist4Net
 		/// <summary>
 		///     The color of the user's profile
 		/// </summary>
-		public UserProfileColors ProfileColour => Options.ProfileColor;
+		public UserProfileColours ProfileColour => Options.ProfileColor;
 
-		private UserMediaListOptions MediaListOptions { get; set; }
+		public UserMediaListOptions MediaListOptions { get; set; }
 
 		/// <summary>
 		///     The user's chosen scoring format
@@ -123,8 +123,8 @@ namespace Anilist4Net
 
 	public class UserAvatar
 	{
-		public string Large { get; set; }
-		public string Small { get; set; }
+		public string Large  { get; set; }
+		public string Medium { get; set; }
 	}
 
 	public class UserOptions
