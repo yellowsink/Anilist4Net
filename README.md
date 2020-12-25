@@ -1,5 +1,6 @@
 # Anilist4Net
 Hell yeah! An Anilist API for .NET that doesn't suck!
+WIP Docs [here](https://github.com/cainy-a/Anilist4Net/wiki)
 
 ## Reason for creation
 I needed an API to get user IDs for [Anime Preview](https://github.com/cainy-a/AnimePreview), but current API libraries kinda suck.
