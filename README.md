@@ -25,10 +25,12 @@ Create a nice API for Anilist with documentation, and good ease of use
 	* [x] Set up Buddy
 	* [x] NUnit for users
 	* [x] NUnit for media
-	* [ ] NUnit for trends
 	* [ ] NUnit for studios
 	* [ ] NUnit for staff
 	* [ ] NUnit for characters
+	* [ ] NUnit for airing schedule
+	* [ ] NUnit for reviews
+	* [ ] NUnit for recommendations
 - [x] Implement users
 	* [x] Classes
 	* [x] Client functions
@@ -51,5 +53,8 @@ Create a nice API for Anilist with documentation, and good ease of use
 	* [x] Classes
 	* [/] Client functions
 - [x] Implement reviews
+	* [x] Classes
+	* [x] Client functions
+- [x] Implement recommendations
 	* [x] Classes
 	* [x] Client functions
