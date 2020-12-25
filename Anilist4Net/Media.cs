@@ -260,27 +260,53 @@ namespace Anilist4Net
 		/// </summary>
 		public string ModNotes { get; set; }
 
+		/// <summary>
+		///     The start date of the media
+		/// </summary>
 		public DateTime AiringStartDate => new DateTime(StartDate.Year, StartDate.Month, StartDate.Day);
-		public DateTime AiringEndDate   => new DateTime(EndDate.Year,   EndDate.Month,   EndDate.Day);
 
+		/// <summary>
+		///     The end date of the media
+		/// </summary>
+		public DateTime AiringEndDate => new DateTime(EndDate.Year, EndDate.Month, EndDate.Day);
+
+		/// <summary>
+		///     Related media
+		/// </summary>
 		public MediaRelation[] MediaRelations => Relations.Edges
 		                                                  .Select(e => new MediaRelation
 		                                                   {
 			                                                   MediaId = e.Node.Id, RelationType = e.RelationType
 		                                                   }).ToArray();
 
+		/// <summary>
+		///     The airing schedule IDs for all the media's episodes
+		/// </summary>
 		public int[] MediaAiringSchedule => AiringSchedule.Nodes.Select(n => n.Id).ToArray();
 
+		/// <summary>
+		///     The media's trending chart history
+		/// </summary>
 		public MediaTrend[] MediaTrends => Trends.Nodes.Select(n => new MediaTrend
 		{
 			MediaId    = n.MediaId, Date          = n.Date, Trending        = n.Trending, AverageScore = n.AverageScore,
 			Popularity = n.Popularity, InProgress = n.InProgress, Releasing = n.Releasing, Episode     = n.Episode
 		}).ToArray();
 
+		/// <summary>
+		///     The IDs of the media's reviews
+		/// </summary>
 		public int[] MediaReviews => Reviews.Nodes.Select(n => n.Id).ToArray();
 
+		/// <summary>
+		///     The IDs of the media's recommendations
+		/// </summary>
 		public int[] MediaRecommendations => Recommendations.Nodes.Select(n => n.Id).ToArray();
-		public int[] MediaCharacters      => Characters.Edges.Select(e => e.Node.Id).ToArray();
+
+		/// <summary>
+		///     The IDs of the media's characters
+		/// </summary>
+		public int[] MediaCharacters => Characters.Edges.Select(e => e.Node.Id).ToArray();
 	}
 
 	public class MediaResponse
