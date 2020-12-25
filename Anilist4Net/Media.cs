@@ -330,7 +330,7 @@ namespace Anilist4Net
 
 	public class MediaTrailer
 	{
-		public int    Id        { get; set; }
+		public string Id        { get; set; }
 		public string Site      { get; set; }
 		public string Thumbnail { get; set; }
 	}
