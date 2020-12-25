@@ -26,7 +26,7 @@ Create a nice API for Anilist with documentation, and good ease of use
 	* [x] NUnit for users
 	* [x] NUnit for media
 	* [x] NUnit for studios
-	* [ ] NUnit for staff
+	* [x] NUnit for staff
 	* [ ] NUnit for characters
 	* [ ] NUnit for airing schedule
 	* [ ] NUnit for reviews
