@@ -3,11 +3,7 @@ Hell yeah! An Anilist API for .NET that doesn't suck!
 WIP Docs [here](https://github.com/cainy-a/Anilist4Net/wiki)
 
 ## Reason for creation
-I needed an API to get user IDs for [Anime Preview](https://github.com/cainy-a/AnimePreview), but current API libraries kinda suck.
-### Miki.Anilist
-Okay, but doesn't support users. Also has no documentation and a dead Discord server.
-### Anisharp
-I couldn't figure out how to use this, let alone get anything back other than an exception. Also, no documentation.
+I needed an API to get user IDs for [Anime Preview](https://github.com/cainy-a/AnimePreview), but current API libraries kinda suck. Some are missing functionality, and some are almost impossible to use. Neither of the two I found had documentation.
 
 ## Aim
 Create a nice API for Anilist with documentation, and good ease of use
