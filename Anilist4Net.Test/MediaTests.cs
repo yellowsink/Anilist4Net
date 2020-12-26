@@ -10,11 +10,12 @@ namespace Anilist4Net.Test
 	[TestFixture]
 	public class MediaTests
 	{
-		[Test]
-		public async Task CowboyBebopByIdTest()
+		[TestCase(TestName = "By ID")]
+		[TestCase(true, TestName = "By Search")]
+		public async Task CowboyBebopTest(bool search = false)
 		{
 			var client = new Client();
-			var media  = await client.GetMediaById(1);
+			var media  = search ? await client.GetMediaBySearch("カウボーイビバップ", MediaTypes.ANIME) : await client.GetMediaById(1);
 			AreEqual(1,                         media.Id);
 			AreEqual(1,                         media.IdMal);
 			AreEqual("Cowboy Bebop",            media.EnglishTitle);

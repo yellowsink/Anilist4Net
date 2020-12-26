@@ -2,6 +2,7 @@
 using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.SystemTextJson;
+using Anilist4Net.Enums;
 
 namespace Anilist4Net
 {
@@ -366,6 +367,26 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Media (idMal: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+
+			return response.Data.Media;
+		}
+		
+		public async Task<Media> GetMediaBySearch(string search)
+		{
+			var query         = $"query ($search: String) {{ Media (search: $search) {MediaQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
+			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
+			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+
+			return response.Data.Media;
+		}
+		
+		public async Task<Media> GetMediaBySearch(string search, MediaTypes type)
+		{
+			var query         = $"query ($search: String $type: MediaType) {{ Media (search: $search type: $type) {MediaQueryReturn} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search, type}};
 			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
 
