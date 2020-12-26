@@ -123,4 +123,10 @@ namespace Anilist4Net.Enums
 		COMPILATION,
 		CONTAINS
 	}
+
+	public enum MediaRankType
+	{
+		RATED,
+		POPULAR
+	}
 }

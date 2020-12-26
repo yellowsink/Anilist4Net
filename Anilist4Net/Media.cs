@@ -396,14 +396,14 @@ namespace Anilist4Net
 
 	public class MediaRanking
 	{
-		public int          Id      { get; set; }
-		public int          Rank    { get; set; }
-		public string       Type    { get; set; }
-		public MediaFormats Format  { get; set; }
-		public int?         Year    { get; set; }
-		public Seasons?     Season  { get; set; }
-		public bool         AllTime { get; set; }
-		public string       Context { get; set; }
+		public int            Id      { get; set; }
+		public int            Rank    { get; set; }
+		public MediaRankTypes Types   { get; set; }
+		public MediaFormats   Format  { get; set; }
+		public int?           Year    { get; set; }
+		public Seasons?       Season  { get; set; }
+		public bool           AllTime { get; set; }
+		public string         Context { get; set; }
 	}
 
 
