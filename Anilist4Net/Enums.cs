@@ -124,7 +124,7 @@ namespace Anilist4Net.Enums
 		CONTAINS
 	}
 
-	public enum MediaRankType
+	public enum MediaRankTypes
 	{
 		RATED,
 		POPULAR
