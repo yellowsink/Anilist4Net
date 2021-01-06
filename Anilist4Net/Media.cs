@@ -110,7 +110,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The source of the media (is it original? is it a manga adaptation?)
 		/// </summary>
-		public MediaSources Source { get; set; }
+		public MediaSources? Source { get; set; }
 
 		/// <summary>
 		///     Official Twitter hashtags
@@ -167,7 +167,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The weighted average score
 		/// </summary>
-		public int AverageScore { get; set; }
+		public int? AverageScore { get; set; }
 
 		/// <summary>
 		///     The true mean average score
@@ -263,12 +263,12 @@ namespace Anilist4Net
 		/// <summary>
 		///     The start date of the media
 		/// </summary>
-		public DateTime AiringStartDate => new DateTime(StartDate.Year, StartDate.Month, StartDate.Day);
+		public DateTime? AiringStartDate => StartDate?.ToDate();
 
 		/// <summary>
 		///     The end date of the media
 		/// </summary>
-		public DateTime AiringEndDate => new DateTime(EndDate.Year, EndDate.Month, EndDate.Day);
+		public DateTime? AiringEndDate => EndDate?.ToDate();
 
 		/// <summary>
 		///     Related media
@@ -323,9 +323,13 @@ namespace Anilist4Net
 
 	public class FuzzyDate
 	{
-		public int Year  { get; set; }
-		public int Month { get; set; }
-		public int Day   { get; set; }
+		public int? Year  { get; set; }
+		public int? Month { get; set; }
+		public int? Day   { get; set; }
+
+		public DateTime? ToDate() => Year.HasValue 
+			? (DateTime?)new DateTime(Year.Value, Month ?? 1, Day ?? 1, 0, 0, 0, DateTimeKind.Unspecified) 
+			: null;
 	}
 
 	public class MediaTrailer
