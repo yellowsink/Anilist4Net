@@ -1,4 +1,5 @@
 # Anilist4Net
+[![CodeFactor](https://www.codefactor.io/repository/github/cainy-a/anilist4net/badge)](https://www.codefactor.io/repository/github/cainy-a/anilist4net)  
 Hell yeah! An Anilist API for .NET that doesn't suck!
 WIP Docs [here](https://github.com/cainy-a/Anilist4Net/wiki)
 
