@@ -3,12 +3,15 @@ using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.SystemTextJson;
 using Anilist4Net.Enums;
+using System.Net.Http;
+using System;
 
 namespace Anilist4Net
 {
 	public class Client
 	{
-		private static readonly string UserQueryReturn = @"{
+        #region GraphQL Queries
+        private static readonly string UserQueryReturn = @"{
 	id
 	name
 	aboutMd: about(asHtml: false)
@@ -332,12 +335,26 @@ namespace Anilist4Net
 	favourites
 	modNotes
 }";
+		#endregion
 
-		public async Task<User> GetUserByName(string username)
+		private readonly GraphQLHttpClient graphQlClient;
+
+		public Client() : this(new HttpClient()) { }
+
+		public Client(HttpClient httpClient)
+		{
+			var options = new GraphQLHttpClientOptions
+			{
+				EndPoint = new Uri("https://graphql.anilist.co")
+			};
+			graphQlClient = new GraphQLHttpClient(options, new SystemTextJsonSerializer(), httpClient);
+		}
+
+        #region Query Invocations
+        public async Task<User> GetUserByName(string username)
 		{
 			var query         = $"query ($username: String) {{ User (name: $username) {UserQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {username}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<UserResponse>(request);
 
 			return response.Data.User;
@@ -347,7 +364,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ User (id: $id) {UserQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<UserResponse>(request);
 
 			return response.Data.User;
@@ -357,7 +373,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Media (id: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
 
 			return response.Data.Media;
@@ -367,7 +382,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Media (idMal: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
 
 			return response.Data.Media;
@@ -377,7 +391,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Media (search: $search) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
 
 			return response.Data.Media;
@@ -387,7 +400,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String $type: MediaType) {{ Media (search: $search type: $type) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search, type}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
 
 			return response.Data.Media;
@@ -397,7 +409,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Review (id: $id) {ReviewQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<ReviewResponse>(request);
 
 			return response.Data.Review;
@@ -407,7 +418,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ AiringSchedule (id: $id) {AiringScheduleQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
 
 			return response.Data.AiringSchedule;
@@ -417,7 +427,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Recommendation (id: $id) {RecommendationQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<RecommendationResponse>(request);
 
 			return response.Data.Recommendation;
@@ -427,7 +436,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Character (id: $id) {CharacterQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<CharacterResponse>(request);
 
 			return response.Data.Character;
@@ -437,7 +445,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Character (search: $search) {CharacterQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<CharacterResponse>(request);
 
 			return response.Data.Character;
@@ -447,7 +454,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Studio (id: $id) {StudioQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
 
 			return response.Data.Studio;
@@ -457,7 +463,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Studio (search: $search) {StudioQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
 
 			return response.Data.Studio;
@@ -467,7 +472,6 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Staff (id: $id) {StaffQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
 
 			return response.Data.Staff;
@@ -477,10 +481,10 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Staff (search: $search) {StaffQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var graphQlClient = new GraphQLHttpClient("https://graphql.anilist.co", new SystemTextJsonSerializer());
 			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
 
 			return response.Data.Staff;
 		}
-	}
+        #endregion
+    }
 }

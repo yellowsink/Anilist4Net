@@ -10,11 +10,12 @@ namespace Anilist4Net.Test
 	[TestFixture]
 	public class MediaTests
 	{
+		private readonly Client client = new Client();
+
 		[TestCase(TestName = "By ID")]
 		[TestCase(true, TestName = "By Search")]
 		public async Task CowboyBebopTest(bool search = false)
 		{
-			var client = new Client();
 			var media  = search ? await client.GetMediaBySearch("カウボーイビバップ", MediaTypes.ANIME) : await client.GetMediaById(1);
 			AreEqual(1,                         media.Id);
 			AreEqual(1,                         media.IdMal);
@@ -48,7 +49,7 @@ namespace Anilist4Net.Test
 			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/banner/1-T3PJUjFJyRwg.jpg",
 			         media.BannerImage);
 			AreEqual(new[] {"Action", "Adventure", "Drama", "Sci-Fi"}, media.Genres);
-			IsEmpty(media.Synonyms);
+			AreEqual("카우보이 비밥", media.Synonyms.FirstOrDefault());
 			IsFalse(media.IsLocked);
 			IsNotEmpty(media.Tags.Where(t => t.Id == 63 && t.Name == "Space" && t.IsGeneralSpoiler == false &&
 			                                 t.IsMediaSpoiler == false).ToArray());
@@ -75,6 +76,18 @@ namespace Anilist4Net.Test
 			IsFalse(media.AutoCreateForumThread);
 			IsFalse(media.IsRecommendationBlocked);
 			IsNull(media.ModNotes);
+		}
+
+		[TestCase(TestName = "Null Date")]
+		[TestCase(TestName = "Partial Date")]
+		public async Task HigurashiTest()
+        {
+			var media = await client.GetMediaById(54357);
+			IsNull(media.EndDate?.Year);
+			IsNull(media.EndDate?.ToDate());
+			IsNotNull(media.StartDate);
+			IsNotNull(media.StartDate.ToDate());
+			AreEqual(new DateTime(2009, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), media.StartDate.ToDate());
 		}
 	}
 }
