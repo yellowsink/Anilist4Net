@@ -1,7 +1,8 @@
 # Anilist4Net
 [![CodeFactor](https://www.codefactor.io/repository/github/cainy-a/anilist4net/badge)](https://www.codefactor.io/repository/github/cainy-a/anilist4net)  
 Hell yeah! An Anilist API for .NET that doesn't suck!
-WIP Docs [here](https://github.com/cainy-a/Anilist4Net/wiki)
+WIP Docs [here](https://github.com/cainy-a/Anilist4Net/wiki)  
+[Download it!!!](https://www.nuget.org/packages/Anilist4Net/)
 
 ## Reason for creation
 I needed an API to get user IDs for [Anime Preview](https://github.com/cainy-a/AnimePreview), but current API libraries kinda suck. Some are missing functionality, and some are almost impossible to use. Neither of the two I found had documentation.
