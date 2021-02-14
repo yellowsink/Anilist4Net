@@ -25,14 +25,14 @@ namespace Anilist4Net.Test
 
 			// The info in these test are likely to change. Make sure to fetch up-to-date info first!
 
-			// PUT A BLOCK COMMENT HERE TO DISABLE
+			/* // PUT A BLOCK COMMENT HERE TO DISABLE
 			AreEqual(668126,       user.Id);
 			AreEqual("Yellowsink", user.Name);
 			IsNull(user.AboutMd);
 			IsNull(user.AboutHtml);
-			AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/large/b668126-VYzGU0Un5il8.jpg",
+			AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/large/b668126-V8x7E1JOB5im.png",
 			         user.LargeAvatar);
-			AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b668126-VYzGU0Un5il8.jpg",
+			AreEqual("https://s4.anilist.co/file/anilistcdn/user/avatar/medium/b668126-V8x7E1JOB5im.png",
 			         user.MediumAvatar);
 			AreEqual("https://s4.anilist.co/file/anilistcdn/user/banner/b668126-U4RJk8NvjQOs.jpg",
 			         user.BannerImage);
