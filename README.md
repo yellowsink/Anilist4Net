@@ -1,5 +1,7 @@
 # Anilist4Net
-[![CodeFactor](https://www.codefactor.io/repository/github/cainy-a/anilist4net/badge)](https://www.codefactor.io/repository/github/cainy-a/anilist4net)  
+[![CodeFactor](https://www.codefactor.io/repository/github/cainy-a/anilist4net/badge)](https://www.codefactor.io/repository/github/cainy-a/anilist4net)
+[![.NET](https://github.com/cainy-a/Anilist4Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/cainy-a/Anilist4Net/actions/workflows/dotnet.yml)
+
 Hell yeah! An Anilist API for .NET that doesn't suck!
 WIP Docs [here](https://github.com/cainy-a/Anilist4Net/wiki)  
 [Download it!!!](https://www.nuget.org/packages/Anilist4Net/)
