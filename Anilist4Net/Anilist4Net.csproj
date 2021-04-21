@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
 	<PackageId>Anilist4Net</PackageId>
-	<Version>1.1.0</Version>
+	<Version>1.2.0</Version>
 	<Authors>Cain Atkinson</Authors>
 	<Company></Company>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
