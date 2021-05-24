@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿#nullable enable
+using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.SystemTextJson;
 using Anilist4Net.Enums;
 using System.Net.Http;
 using System;
+using System.Net;
 
 namespace Anilist4Net
 {
@@ -379,11 +381,20 @@ namespace Anilist4Net
 			return response.Data.User;
 		}
 
-		public async Task<Media> GetMediaById(int id)
+		public async Task<Media?> GetMediaById(int id)
 		{
 			var query         = $"query ($id: Int) {{ Media (id: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			GraphQLResponse<MediaResponse> response = null!;
+			try
+			{
+				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			}
+			catch (GraphQLHttpRequestException e)
+			{
+				if (e.StatusCode == HttpStatusCode.NotFound)
+					return null; // media did not exist
+			}
 
 			return response.Data.Media;
 		}
@@ -392,7 +403,16 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Media (idMal: $id) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			GraphQLResponse<MediaResponse> response = null!;
+			try
+			{
+				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			}
+			catch (GraphQLHttpRequestException e)
+			{
+				if (e.StatusCode == HttpStatusCode.NotFound)
+					return null; // media did not exist
+			}
 
 			return response.Data.Media;
 		}
@@ -401,7 +421,16 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Media (search: $search) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			GraphQLResponse<MediaResponse> response = null!;
+			try
+			{
+				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			}
+			catch (GraphQLHttpRequestException e)
+			{
+				if (e.StatusCode == HttpStatusCode.NotFound)
+					return null; // media did not exist
+			}
 
 			return response.Data.Media;
 		}
@@ -410,7 +439,16 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String $type: MediaType) {{ Media (search: $search type: $type) {MediaQueryReturn} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search, type}};
-			var response      = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			GraphQLResponse<MediaResponse> response = null!;
+			try
+			{
+				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+			}
+			catch (GraphQLHttpRequestException e)
+			{
+				if (e.StatusCode == HttpStatusCode.NotFound)
+					return null; // media did not exist
+			}
 
 			return response.Data.Media;
 		}

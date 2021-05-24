@@ -91,7 +91,7 @@ namespace Anilist4Net.Enums
 		WINTER,
 		SPRING,
 		SUMMER,
-		AUGUST
+		FALL
 	}
 
 	public enum MediaSources
