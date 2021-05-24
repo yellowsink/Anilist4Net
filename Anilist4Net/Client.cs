@@ -124,6 +124,11 @@ namespace Anilist4Net
       edges {
         node {
           id
+          title {
+            romaji
+            english
+            native
+          }
         }
         relationType
       }
@@ -133,6 +138,7 @@ namespace Anilist4Net
         node {
           id
         }
+        role
         voiceActors {
           id
         }
@@ -333,6 +339,10 @@ namespace Anilist4Net
 		nodes {
 			id
 		}
+	}
+	image {
+		large
+		medium
 	}
 	favourites
 	modNotes

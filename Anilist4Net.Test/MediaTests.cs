@@ -56,7 +56,13 @@ namespace Anilist4Net.Test
 			IsNotEmpty(media.MediaRelations
 			                .Where(r => r.MediaId == 5 && r.RelationType == MediaRelationType.SIDE_STORY)
 			                .ToArray());
+			AreEqual("Cowboy Bebop: The Movie - Knockin' on Heaven's Door", media.Relations.Edges.First().Node.Title.English);
+            AreEqual("カウボーイビバップ天国の扉", media.Relations.Edges.First().Node.Title.Native);
+            AreEqual("Cowboy Bebop: Tengoku no Tobira", media.Relations.Edges.First().Node.Title.Romaji);
 			Contains(1, media.MediaCharacters);
+
+			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First().Role);
+
 			IsNotEmpty(media.Staff.Edges.Select(e => e.Node.Id == 95269 && e.Role == "ADR Director"));
 			IsNotEmpty(media.Studios.Edges.Select(e => e.Node.Id == 14 && e.IsMain));
 			IsFalse(media.IsAdult);

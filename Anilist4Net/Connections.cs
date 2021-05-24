@@ -15,7 +15,8 @@ namespace Anilist4Net.Connections
 
 	public class MediaNodePlaceholder
 	{
-		public int Id { get; set; }
+		public int Id           { get; set; }
+		public MediaTitle Title { get; set; }
 	}
 
 	public class CharacterConnection
@@ -27,11 +28,12 @@ namespace Anilist4Net.Connections
 	{
 		public CharacterNodePlaceholder Node        { get; set; }
 		public VoiceActorPlaceholder[]  VoiceActors { get; set; }
-	}
+        public CharacterRole Role                   { get; set; }
+    }
 
 	public class CharacterNodePlaceholder
 	{
-		public int Id { get; set; }
+		public int Id      { get; set; }
 	}
 
 	public class VoiceActorPlaceholder

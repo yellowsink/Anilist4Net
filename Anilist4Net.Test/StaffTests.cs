@@ -29,6 +29,8 @@ namespace Anilist4Net.Test
 			IsEmpty(staff.CharacterIds);
 			IsEmpty(staff.CharacterMediaIds);
 			IsNull(staff.ModNotes);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/staff/large/3152.jpg", staff.ImageLarge);
+            AreEqual("https://s4.anilist.co/file/anilistcdn/staff/medium/3152.jpg", staff.ImageMedium);
 		}
 	}
 }
