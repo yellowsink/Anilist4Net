@@ -66,6 +66,18 @@ namespace Anilist4Net
 		/// </summary>
 		public int Favourites { get; set; }
 
+		public StaffImage Image { get; set; }
+
+        /// <summary>
+        ///     The staff's image URL (large)
+        /// </summary>
+        public string ImageLarge => Image.Large;
+
+        /// <summary>
+        ///     The staff's image URL (medium)
+        /// </summary>
+        public string ImageMedium => Image.Medium;
+
 		/// <summary>
 		///     Mods Notes
 		/// </summary>
@@ -76,4 +88,10 @@ namespace Anilist4Net
 	{
 		public Staff Staff { get; set; }
 	}
+
+    public class StaffImage
+    {
+        public string Large { get; set; }
+        public string Medium { get; set; }
+    }
 }

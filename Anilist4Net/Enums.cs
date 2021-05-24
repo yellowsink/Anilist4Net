@@ -129,4 +129,11 @@ namespace Anilist4Net.Enums
 		RATED,
 		POPULAR
 	}
+
+    public enum CharacterRole
+    {
+        MAIN,
+        SUPPORTING,
+        BACKGROUND
+	}
 }
