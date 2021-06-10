@@ -416,7 +416,25 @@ namespace Anilist4Net
 
 			return response.Data.Media;
 		}
-		
+
+        public async Task<Media> GetMediaByMalId(int id, MediaTypes mediaType)
+        {
+            var query = $"query ($id: Int) {{ Media (idMal: $id type: {mediaType}) {MediaQueryReturn} }}";
+            var request = new GraphQLRequest { Query = query, Variables = new { id } };
+            GraphQLResponse<MediaResponse> response = null!;
+            try
+            {
+                response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+            }
+            catch (GraphQLHttpRequestException e)
+            {
+                if (e.StatusCode == HttpStatusCode.NotFound)
+                    return null; // media did not exist
+            }
+
+            return response.Data.Media;
+		}
+
 		public async Task<Media> GetMediaBySearch(string search)
 		{
 			var query         = $"query ($search: String) {{ Media (search: $search) {MediaQueryReturn} }}";
