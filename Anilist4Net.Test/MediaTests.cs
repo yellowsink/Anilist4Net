@@ -99,7 +99,7 @@ namespace Anilist4Net.Test
 		// Caters for cases where there are more than one Mal Id that is the same (for example an anime and a manga) by allowing the user to specify the media type they expect
         [TestCase(MediaTypes.ANIME, "Yakusoku no Neverland 2")]
         [TestCase(MediaTypes.MANGA, "Vermillion")]
-		public async Task SettingExpectedMediaTypeCorrectlyDifferentiateMatchingMalIds(MediaTypes typeToRetrieve, string expectedTitle)
+		public async Task MalIdByTypeTest(MediaTypes typeToRetrieve, string expectedTitle)
         {
             var media = await client.GetMediaByMalId(39617, typeToRetrieve);
             AreEqual(typeToRetrieve, media.Type);
