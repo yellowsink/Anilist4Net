@@ -172,7 +172,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The true mean average score
 		/// </summary>
-		public int MeanScore { get; set; }
+		public int? MeanScore { get; set; }
 
 		/// <summary>
 		///     How popular the media is
