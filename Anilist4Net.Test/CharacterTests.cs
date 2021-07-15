@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Anilist4Net.Enums;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
 
@@ -26,6 +28,20 @@ namespace Anilist4Net.Test
 			Contains(40827, character.MediaIds);
 			IsNull(character.ModNotes);
 		}
+
+        [Test]
+        public async Task RolesInMedia()
+        {
+			// arrange
+            var client = new Client();
+
+			// act
+            var character = await client.GetCharacterById(215834);
+
+			// assert
+            AreEqual(CharacterRole.MAIN, character.Media.Edges.First(x => x.Node.Id == 135381).CharacterRole);
+            AreEqual(CharacterRole.SUPPORTING, character.Media.Edges.First(x => x.Node.Id == 129814).CharacterRole);
+        }
 
 		[Test]
 		public async Task NagisaShiotaBySearchTest() // I'm having trouble hiding my biases here.

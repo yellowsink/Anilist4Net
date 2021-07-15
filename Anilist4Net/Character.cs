@@ -80,7 +80,7 @@ namespace Anilist4Net
 		///     Mods Notes
 		/// </summary>
 		public string ModNotes { get; set; }
-	}
+    }
 
 	public class CharacterResponse
 	{

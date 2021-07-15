@@ -105,5 +105,18 @@ namespace Anilist4Net.Test
             AreEqual(typeToRetrieve, media.Type);
 			AreEqual(expectedTitle, media.RomajiTitle);
         }
+
+		// Check the relationship types for ZombieLand Saga to ensure anime/manga type is correctly returned
+        [Test]
+        public async Task RelationshipMediaType()
+        {
+			// arrange
+			// act
+            var media = await client.GetMediaById(103871);
+
+			// assert
+			AreEqual(MediaTypes.MANGA, media.Relations.Edges.First(x => x.Node.Id == 104714).Node.Type);
+            AreEqual(MediaTypes.ANIME, media.Relations.Edges.First(x => x.Node.Id == 110733).Node.Type);
+		}
 	}
 }

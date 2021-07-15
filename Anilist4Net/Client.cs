@@ -129,6 +129,7 @@ namespace Anilist4Net
             english
             native
           }
+          type
         }
         relationType
       }
@@ -294,7 +295,14 @@ namespace Anilist4Net
 	media { 
 		nodes {
 			id
+            type
 		}
+        edges {
+            node {
+                id
+            }
+            characterRole
+        }
 	}
 	favourites
 	modNotes
@@ -331,9 +339,21 @@ namespace Anilist4Net
 		}
 	}
 	characters {
-		nodes {
-			id
-		}
+        edges{
+            node{
+                id,
+                name {
+                    first
+                    last
+            }
+            media {
+                nodes{
+                    id
+                    type              
+                }
+            }
+        }
+    }
 	}
 	characterMedia {
 		nodes {
