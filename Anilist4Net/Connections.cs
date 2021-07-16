@@ -79,7 +79,7 @@ namespace Anilist4Net.Connections
 
 	public class AiringScheduleConnection
 	{
-		public AiringScheduleNodePlaceholder[] Nodes { get; set; }
+		public AiringSchedule[] Nodes { get; set; }
 	}
 
 	public class AiringScheduleNodePlaceholder

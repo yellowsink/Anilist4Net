@@ -65,5 +65,20 @@ namespace Anilist4Net.Test
 			Contains(69883, character.MediaIds);
 			IsNull(character.ModNotes);
 		}
+
+		// Ensure we retrieve all the media pages and not just the first 25
+		[Test]
+		public async Task NarutoMedia()
+        {
+			// arrange
+			var client = new Client();
+
+			// act
+			var character = await client.GetCharacterById(17);
+
+			// assert
+			GreaterOrEqual(character.Media.Edges.Length, 52);
+			GreaterOrEqual(character.Media.Nodes.Length, 52);
+		}
 	}
 }

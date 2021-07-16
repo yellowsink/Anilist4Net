@@ -61,7 +61,7 @@ namespace Anilist4Net.Test
             AreEqual("Cowboy Bebop: Tengoku no Tobira", media.Relations.Edges.First().Node.Title.Romaji);
 			Contains(1, media.MediaCharacters);
 
-			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First().Role);
+			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First(x => x.Node.Id == 1).Role);
 
 			IsNotEmpty(media.Staff.Edges.Select(e => e.Node.Id == 95269 && e.Role == "ADR Director"));
 			IsNotEmpty(media.Studios.Edges.Select(e => e.Node.Id == 14 && e.IsMain));
@@ -118,5 +118,16 @@ namespace Anilist4Net.Test
 			AreEqual(MediaTypes.MANGA, media.Relations.Edges.First(x => x.Node.Id == 104714).Node.Type);
             AreEqual(MediaTypes.ANIME, media.Relations.Edges.First(x => x.Node.Id == 110733).Node.Type);
 		}
+
+        [Test]
+		public async Task SpiderCharacters()
+        {
+			// arrange
+			// act
+			var media = await client.GetMediaById(103632);
+
+			// assert
+			AreEqual(42, media.Characters.Edges.Length);
+        }
 	}
 }

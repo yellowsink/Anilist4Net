@@ -35,7 +35,7 @@ namespace Anilist4Net.Test
 		}
 
         [Test]
-        public async Task StaffMedia()
+        public async Task StaffCharacters()
         {
 			// arrange
             var client = new Client();
@@ -44,9 +44,9 @@ namespace Anilist4Net.Test
 			var staff = await client.GetStaffById(101686);
 
 			// assert
-			GreaterOrEqual(25, staff.Characters.Edges.Length);
+			GreaterOrEqual(staff.Characters.Edges.Length, 164);
             var edge = staff.Characters.Edges.First(x => x.Node.Id == 38904);
             AreEqual(MediaTypes.ANIME, edge.Node.Media.Nodes.First(x => x.Id == 9776).Type);
-        }
+        }		
 	}
 }
