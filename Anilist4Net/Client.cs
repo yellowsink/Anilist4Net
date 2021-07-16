@@ -90,7 +90,6 @@ namespace Anilist4Net
 					additionalCharacters.AddRange(response.Data.Media.Characters.Edges);
 					response.Data.Media.Characters.Edges = additionalCharacters.ToArray();
                 }
-
 			}
 			catch (GraphQLHttpRequestException e)
 			{
