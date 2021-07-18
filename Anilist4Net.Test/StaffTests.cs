@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Anilist4Net.Enums;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
@@ -32,5 +33,20 @@ namespace Anilist4Net.Test
 			AreEqual("https://s4.anilist.co/file/anilistcdn/staff/large/3152.jpg", staff.ImageLarge);
             AreEqual("https://s4.anilist.co/file/anilistcdn/staff/medium/3152.jpg", staff.ImageMedium);
 		}
+
+        [Test]
+        public async Task StaffCharacters()
+        {
+			// arrange
+            var client = new Client();
+
+			// act
+			var staff = await client.GetStaffById(101686);
+
+			// assert
+			GreaterOrEqual(staff.Characters.Edges.Length, 164);
+            var edge = staff.Characters.Edges.First(x => x.Node.Id == 38904);
+            AreEqual(MediaTypes.ANIME, edge.Node.Media.Nodes.First(x => x.Id == 9776).Type);
+        }		
 	}
 }

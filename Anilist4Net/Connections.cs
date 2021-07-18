@@ -11,12 +11,13 @@ namespace Anilist4Net.Connections
 	{
 		public MediaNodePlaceholder Node         { get; set; }
 		public MediaRelationType    RelationType { get; set; }
-	}
+    }
 
 	public class MediaNodePlaceholder
 	{
 		public int Id           { get; set; }
 		public MediaTitle Title { get; set; }
+		public MediaTypes? Type { get; set; }
 	}
 
 	public class CharacterConnection
@@ -28,12 +29,15 @@ namespace Anilist4Net.Connections
 	{
 		public CharacterNodePlaceholder Node        { get; set; }
 		public VoiceActorPlaceholder[]  VoiceActors { get; set; }
-        public CharacterRole Role                   { get; set; }
-    }
+        public CharacterRole? Role                  { get; set; }
+        public CharacterRole? CharacterRole         { get; set; }
+	}
 
 	public class CharacterNodePlaceholder
 	{
 		public int Id      { get; set; }
+		public MultiLanguageName Name { get; set; }
+		public MediaNodeConnection Media { get; set; }
 	}
 
 	public class VoiceActorPlaceholder
@@ -75,7 +79,7 @@ namespace Anilist4Net.Connections
 
 	public class AiringScheduleConnection
 	{
-		public AiringScheduleNodePlaceholder[] Nodes { get; set; }
+		public AiringSchedule[] Nodes { get; set; }
 	}
 
 	public class AiringScheduleNodePlaceholder
@@ -116,5 +120,6 @@ namespace Anilist4Net.Connections
 	public class MediaNodeConnection
 	{
 		public MediaNodePlaceholder[] Nodes { get; set; }
-	}
+		public CharacterEdge[] Edges { get; set; }
+    }
 }

@@ -61,7 +61,7 @@ namespace Anilist4Net.Test
             AreEqual("Cowboy Bebop: Tengoku no Tobira", media.Relations.Edges.First().Node.Title.Romaji);
 			Contains(1, media.MediaCharacters);
 
-			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First().Role);
+			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First(x => x.Node.Id == 1).Role);
 
 			IsNotEmpty(media.Staff.Edges.Select(e => e.Node.Id == 95269 && e.Role == "ADR Director"));
 			IsNotEmpty(media.Studios.Edges.Select(e => e.Node.Id == 14 && e.IsMain));
@@ -104,6 +104,30 @@ namespace Anilist4Net.Test
             var media = await client.GetMediaByMalId(39617, typeToRetrieve);
             AreEqual(typeToRetrieve, media.Type);
 			AreEqual(expectedTitle, media.RomajiTitle);
+        }
+
+		// Check the relationship types for ZombieLand Saga to ensure anime/manga type is correctly returned
+        [Test]
+        public async Task RelationshipMediaType()
+        {
+			// arrange
+			// act
+            var media = await client.GetMediaById(103871);
+
+			// assert
+			AreEqual(MediaTypes.MANGA, media.Relations.Edges.First(x => x.Node.Id == 104714).Node.Type);
+            AreEqual(MediaTypes.ANIME, media.Relations.Edges.First(x => x.Node.Id == 110733).Node.Type);
+		}
+
+        [Test]
+		public async Task SpiderCharacters()
+        {
+			// arrange
+			// act
+			var media = await client.GetMediaById(103632);
+
+			// assert
+			AreEqual(42, media.Characters.Edges.Length);
         }
 	}
 }
