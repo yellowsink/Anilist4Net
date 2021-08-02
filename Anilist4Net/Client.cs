@@ -20,7 +20,7 @@ namespace Anilist4Net
 		/// <summary>
 		/// GraphQLHttpClient instance
 		/// </summary>
-		private readonly GraphQLHttpClient graphQlClient;
+		private readonly GraphQLHttpClient _graphQlClient;
 
 		/// <summary>
 		/// Default Constructor
@@ -37,7 +37,7 @@ namespace Anilist4Net
 			{
 				EndPoint = new Uri("https://graphql.anilist.co")
 			};
-			graphQlClient = new GraphQLHttpClient(options, new SystemTextJsonSerializer(), httpClient);
+			_graphQlClient = new GraphQLHttpClient(options, new SystemTextJsonSerializer(), httpClient);
 		}
 
         #region Query Invocations
@@ -51,7 +51,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($username: String) {{ User (name: $username) {QueryBuilder.GetUserQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {username}};
-			var response      = await graphQlClient.SendQueryAsync<UserResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<UserResponse>(request);
 
 			return response.Data.User;
 		}
@@ -65,7 +65,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ User (id: $id) {QueryBuilder.GetUserQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<UserResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<UserResponse>(request);
 
 			return response.Data.User;
 		}
@@ -82,7 +82,7 @@ namespace Anilist4Net
 			GraphQLResponse<MediaResponse> response = null!;
 			try
 			{
-				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
 				var characterCount = response.Data.Media.Characters.Edges.Length;
 				if(characterCount >= 25)
                 {
@@ -116,7 +116,7 @@ namespace Anilist4Net
 			GraphQLResponse<MediaResponse> response = null!;
 			try
 			{
-				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
 				var characterCount = response.Data.Media.Characters.Edges.Length;
 				if (characterCount >= 25)
 				{
@@ -148,7 +148,7 @@ namespace Anilist4Net
             GraphQLResponse<MediaResponse> response = null!;
             try
             {
-                response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+                response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
 				var characterCount = response.Data.Media.Characters.Edges.Length;
 				if (characterCount >= 25)
 				{
@@ -178,7 +178,7 @@ namespace Anilist4Net
 			GraphQLResponse<MediaResponse> response = null!;
 			try
 			{
-				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
 				var characterCount = response.Data.Media.Characters.Edges.Length;
 				if (characterCount >= 25)
 				{
@@ -209,7 +209,7 @@ namespace Anilist4Net
 			GraphQLResponse<MediaResponse> response = null!;
 			try
 			{
-				response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
 				var characterCount = response.Data.Media.Characters.Edges.Length;
 				if (characterCount >= 25)
 				{
@@ -243,7 +243,7 @@ namespace Anilist4Net
 				{
 					var query = $"query ($id: Int) {{ Media (id: $id) {QueryBuilder.GetCharactersForMediaQuery(page)} }}";
 					var request = new GraphQLRequest { Query = query, Variables = new { id } };
-					var response = await graphQlClient.SendQueryAsync<MediaResponse>(request);
+					var response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
 					characterCount = response.Data.Media.Characters.Edges.Length;
 					characters.AddRange(response.Data.Media.Characters.Edges);
 					page++;
@@ -266,7 +266,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Review (id: $id) {QueryBuilder.GetReviewQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<ReviewResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<ReviewResponse>(request);
 
 			return response.Data.Review;
 		}
@@ -280,7 +280,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ AiringSchedule (id: $id) {QueryBuilder.GetAiringScheduleQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
 
 			return response.Data.AiringSchedule;
 		}
@@ -294,7 +294,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Recommendation (id: $id) {QueryBuilder.GetRecommendationQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<RecommendationResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<RecommendationResponse>(request);
 
 			return response.Data.Recommendation;
 		}
@@ -308,7 +308,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Character (id: $id) {QueryBuilder.GetCharacterQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<CharacterResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<CharacterResponse>(request);
 
 			var mediaCount = response.Data.Character.Media.Edges.Length;
 			if (mediaCount >= 25)
@@ -340,7 +340,7 @@ namespace Anilist4Net
 				{
 					var query = $"query ($id: Int) {{ Character (id: $id) {QueryBuilder.GetCharacterMediaQuery(page)} }}";
 					var request = new GraphQLRequest { Query = query, Variables = new { id } };
-					var response = await graphQlClient.SendQueryAsync<CharacterResponse>(request);
+					var response = await _graphQlClient.SendQueryAsync<CharacterResponse>(request);
 					mediaCount = response.Data.Character.Media.Edges.Length;
 					edges.AddRange(response.Data.Character.Media.Edges);
 					nodes.AddRange(response.Data.Character.Media.Nodes);					
@@ -365,7 +365,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Character (search: $search) {QueryBuilder.GetCharacterQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await graphQlClient.SendQueryAsync<CharacterResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<CharacterResponse>(request);
 
 			return response.Data.Character;
 		}
@@ -379,7 +379,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Studio (id: $id) {QueryBuilder.GetStudioQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<StudioResponse>(request);
 
 			return response.Data.Studio;
 		}
@@ -393,7 +393,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Studio (search: $search) {QueryBuilder.GetStudioQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await graphQlClient.SendQueryAsync<StudioResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<StudioResponse>(request);
 
 			return response.Data.Studio;
 		}
@@ -407,7 +407,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($id: Int) {{ Staff (id: $id) {QueryBuilder.GetStaffQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<StaffResponse>(request);
 
 			var characterCount = response.Data.Staff.Characters.Edges.Length;
 			if (characterCount >= 25)
@@ -429,7 +429,7 @@ namespace Anilist4Net
 		{
 			var query         = $"query ($search: String) {{ Staff (search: $search) {QueryBuilder.GetStaffQuery()} }}";
 			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await graphQlClient.SendQueryAsync<StaffResponse>(request);
+			var response      = await _graphQlClient.SendQueryAsync<StaffResponse>(request);
 
 			var characterCount = response.Data.Staff.Characters.Edges.Length;
 			if (characterCount >= 25)
@@ -458,7 +458,7 @@ namespace Anilist4Net
 				{
 					var query = $"query ($id: Int) {{ Staff (id: $id) {QueryBuilder.GetStaffCharactersQuery(page)} }}";
 					var request = new GraphQLRequest { Query = query, Variables = new { id } };
-					var response = await graphQlClient.SendQueryAsync<StaffResponse>(request);
+					var response = await _graphQlClient.SendQueryAsync<StaffResponse>(request);
 					mediaCount = response.Data.Staff.Characters.Edges.Length;
 					edges.AddRange(response.Data.Staff.Characters.Edges);
 
