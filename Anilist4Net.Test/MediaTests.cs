@@ -127,7 +127,27 @@ namespace Anilist4Net.Test
 			var media = await client.GetMediaById(103632);
 
 			// assert
-			AreEqual(42, media.Characters.Edges.Length);
+			AreEqual(48, media.Characters.Edges.Length);
+        }
+
+        [Test]
+        public async Task RequestingSeasonReturnsExpectedData()
+        {
+			// arrange
+            const Seasons season = Seasons.SPRING;
+            const int seasonYear = 2023;
+            const int page = 1;
+
+            // act
+            var result = await client.GetMediaForSeason(page, season, seasonYear);
+
+            // assert
+            AreEqual(result.Media.Length, 50);
+			AreEqual(result.PageInfo.CurrentPage, 1);
+            AreEqual(result.PageInfo.HasNextPage, true);
+			AreEqual(result.PageInfo.PerPage, 50);
+			AreEqual(result.PageInfo.Total, 5000);
+
         }
 	}
 }

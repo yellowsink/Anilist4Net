@@ -9,6 +9,7 @@ using System;
 using System.Net;
 using Anilist4Net.Connections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Anilist4Net
 {
@@ -442,13 +443,29 @@ namespace Anilist4Net
 			return response.Data.Staff;
 		}
 
-		/// <summary>
-		/// Retrieve all character entries for a <see cref="Staff"/> entry.
-		/// </summary>
-		/// <param name="id">AniList staff Id</param>
-		/// <param name="page">Page to start the retrieval from</param>
-		/// <returns>List of <see cref="MediaEdge"/>s for the <see cref="Staff"/></returns>
-		public async Task<List<CharacterEdge>> GetAllCharactersForStaffAsync(int id, int page)
+        /// <summary>
+        /// Retrieve query that can be used to retrieve <see cref="Media"/> for a season
+        /// </summary>
+        /// <param name="page">The page to retrieve</param>
+        /// <param name="season">The season to retrieve</param>
+        /// <param name="seasonYear">The year the season is in</param>
+        /// <returns>Media for the requested season</returns>
+        public async Task<Page> GetMediaForSeason(int page, Seasons season, int seasonYear)
+        {
+            var query         = $"query ($page: Int $season: MediaSeason, $seasonYear: Int) {{ Page (page: $page) {{ media (season: $season seasonYear: $seasonYear) {QueryBuilder.GetSeasonQuery()} }}}}";
+            var request       = new GraphQLRequest { Query = query, Variables = new { page, season, seasonYear } };
+            var response      = await _graphQlClient.SendQueryAsync<PageResponse>(request);
+
+            return response.Data.Page;
+        }
+
+        /// <summary>
+        /// Retrieve all character entries for a <see cref="Staff"/> entry.
+        /// </summary>
+        /// <param name="id">AniList staff Id</param>
+        /// <param name="page">Page to start the retrieval from</param>
+        /// <returns>List of <see cref="MediaEdge"/>s for the <see cref="Staff"/></returns>
+        public async Task<List<CharacterEdge>> GetAllCharactersForStaffAsync(int id, int page)
 		{
 			var mediaCount = 0;
 			var edges = new List<CharacterEdge>();

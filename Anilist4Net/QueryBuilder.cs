@@ -1,4 +1,6 @@
-﻿namespace Anilist4Net
+﻿using Anilist4Net.Enums;
+
+namespace Anilist4Net
 {
     /// <summary>
     /// Build queries used to retrieve data from AniList API
@@ -423,6 +425,39 @@
 	                    modNotes
                     }";
         }
+        
+        /// <summary>
+        /// Get query part that can be used to retrieve <see cref="Media"/> for a specific season
+        /// </summary>
+        /// <returns>Query to retrieve media for a season</returns>
+        public static string GetSeasonQuery()
+        {
+            return @"{
+                  id,
+                  title {
+                    romaji
+                    english
+                    native
+                    userPreferred
+                  },
+                  startDate {
+                    year
+                    month
+                    day
+                  },
+                  endDate {
+                    year
+                    month
+                    day
+                  }
+                }
+                pageInfo {
+                  hasNextPage,
+                  currentPage,
+                  total,
+                  perPage
+                }";
+        }
 
         #endregion
 
@@ -431,7 +466,7 @@
         /// <summary>
         /// Get query part that can be used to retrieve <see cref="CharacterConnection"/> for <see cref="Staff"/>
         /// </summary>
-        /// <param name="page">The page to retrievve</param>
+        /// <param name="page">The page to retrieve</param>
         /// <returns>Query to retrieve staff characters</returns>
         private static string CharactersForStaff(int page)
         {
