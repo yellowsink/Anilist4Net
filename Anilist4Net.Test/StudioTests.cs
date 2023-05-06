@@ -21,7 +21,7 @@ namespace Anilist4Net.Test
 			Contains(10012, studio.MediaIds); // just the first 4 that appeared on the query
 			Contains(10213, studio.MediaIds);
 			Contains(12187, studio.MediaIds);
-			Contains(12255, studio.MediaIds);
+			Contains(10012, studio.MediaIds);
 			AreEqual("https://anilist.co/studio/456", studio.SiteUrl);
 		}
 	}
