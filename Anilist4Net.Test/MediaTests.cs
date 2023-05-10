@@ -38,7 +38,7 @@ namespace Anilist4Net.Test
 			IsTrue(media.IsLicensed);
 			AreEqual(MediaSources.ORIGINAL, media.Source);
 			IsNull(media.Hashtag);
-			IsNull(media.Trailer);
+			IsNotNull(media.Trailer);
 			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-CXtrrkMpJ8Zq.png",
 			         media.CoverImageExtraLarge);
 			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1-CXtrrkMpJ8Zq.png",
@@ -46,7 +46,7 @@ namespace Anilist4Net.Test
 			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx1-CXtrrkMpJ8Zq.png",
 			         media.CoverImageMedium);
 			AreEqual("#f1785d", media.CoverImageColour);
-			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/banner/1-T3PJUjFJyRwg.jpg",
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/banner/1-OquNCNB6srGe.jpg",
 			         media.BannerImage);
 			AreEqual(new[] {"Action", "Adventure", "Drama", "Sci-Fi"}, media.Genres);
 			AreEqual("카우보이 비밥", media.Synonyms.FirstOrDefault());
@@ -86,14 +86,14 @@ namespace Anilist4Net.Test
 
 		[TestCase(TestName = "Null Date")]
 		[TestCase(TestName = "Partial Date")]
-		public async Task HigurashiTest()
+		public async Task OnePieceTest()
         {
-			var media = await client.GetMediaById(54357);
+			var media = await client.GetMediaById(30013);
 			IsNull(media.EndDate?.Year);
 			IsNull(media.EndDate?.ToDate());
 			IsNotNull(media.StartDate);
 			IsNotNull(media.StartDate.ToDate());
-			AreEqual(new DateTime(2009, 1, 1, 0, 0, 0, DateTimeKind.Unspecified), media.StartDate.ToDate());
+			AreEqual(new DateTime(1997, 7, 22, 0, 0, 0, DateTimeKind.Unspecified), media.StartDate.ToDate());
 		}
 
 		// Caters for cases where there are more than one Mal Id that is the same (for example an anime and a manga) by allowing the user to specify the media type they expect
@@ -127,7 +127,27 @@ namespace Anilist4Net.Test
 			var media = await client.GetMediaById(103632);
 
 			// assert
-			AreEqual(42, media.Characters.Edges.Length);
+			AreEqual(48, media.Characters.Edges.Length);
+        }
+
+        [Test]
+        public async Task RequestingSeasonReturnsExpectedData()
+        {
+			// arrange
+            const Seasons season = Seasons.SPRING;
+            const int seasonYear = 2023;
+            const int page = 1;
+
+            // act
+            var result = await client.GetMediaForSeason(page, season, seasonYear);
+
+            // assert
+            AreEqual(result.Media.Length, 50);
+			AreEqual(result.PageInfo.CurrentPage, 1);
+            AreEqual(result.PageInfo.HasNextPage, true);
+			AreEqual(result.PageInfo.PerPage, 50);
+			AreEqual(result.PageInfo.Total, 5000);
+
         }
 	}
 }

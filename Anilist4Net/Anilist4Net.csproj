@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<PackageId>Anilist4Net</PackageId>
-	<Version>1.3.0</Version>
+	<Version>1.4.0</Version>
 	<Authors>Cain Atkinson</Authors>
     <Description>Hell yeah! An Anilist API for .NET that doesn't suck!</Description>
     <Company></Company>
