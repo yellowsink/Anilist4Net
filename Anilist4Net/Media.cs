@@ -42,7 +42,7 @@ namespace Anilist4Net
 		/// <summary>
 		///     The format of the media
 		/// </summary>
-		public MediaFormats Format { get; set; }
+		public MediaFormats? Format { get; set; }
 
 		/// <summary>
 		///     The status of the media (airing, finished, etc)
