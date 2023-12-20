@@ -149,5 +149,188 @@ namespace Anilist4Net.Test
 			AreEqual(result.PageInfo.Total, 5000);
 
         }
+
+        [Test]
+        public async Task CowboyBebopSearchTest()
+        {
+	        // arrange
+	        const string query = "カウボーイビバップ";
+	        const int searchPage = 1;
+	        const int perPage = 10;
+
+	        // act
+	        var page = await client.GetMediaBySearch(query, searchPage, perPage);
+	        
+	        // assert
+	        NotNull(page);
+	        
+	        NotNull(page.PageInfo);
+	        AreEqual(searchPage, page.PageInfo.CurrentPage);
+	        AreEqual(5, page.PageInfo.Total); // Could change over time
+	        IsFalse(page.PageInfo.HasNextPage);
+	        
+	        NotNull(page.Media);
+	        AreEqual(5, page.Media.Length);
+
+	        Media media = page.Media.First(x => x.Id == 1); // This is cheating but I'm not gonna test all items
+	        
+	        AreEqual(1,                         media.Id);
+			AreEqual(1,                         media.IdMal);
+			AreEqual("Cowboy Bebop",            media.EnglishTitle);
+			AreEqual("Cowboy Bebop",            media.RomajiTitle);
+			AreEqual("カウボーイビバップ",               media.NativeTitle);
+			AreEqual(MediaTypes.ANIME,          media.Type);
+			AreEqual(MediaFormats.TV,           media.Format);
+			AreEqual(MediaStatuses.FINISHED,    media.Status);
+			AreEqual(new DateTime(1998, 4, 3),  media.AiringStartDate);
+			AreEqual(new DateTime(1999, 4, 24), media.AiringEndDate);
+			AreEqual(Seasons.SPRING,            media.Season);
+			AreEqual(1998,                      media.SeasonYear);
+			AreEqual(982,                       media.SeasonInt);
+			AreEqual(26,                        media.Episodes);
+			AreEqual(24,                        media.Duration);
+			IsNull(media.Chapters);
+			IsNull(media.Volumes);
+			AreEqual("JP", media.CountryOfOrigin);
+			IsTrue(media.IsLicensed);
+			AreEqual(MediaSources.ORIGINAL, media.Source);
+			IsNull(media.Hashtag);
+			IsNotNull(media.Trailer);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-CXtrrkMpJ8Zq.png",
+			         media.CoverImageExtraLarge);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1-CXtrrkMpJ8Zq.png",
+			         media.CoverImageLarge);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx1-CXtrrkMpJ8Zq.png",
+			         media.CoverImageMedium);
+			AreEqual("#f1785d", media.CoverImageColour);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/banner/1-OquNCNB6srGe.jpg",
+			         media.BannerImage);
+			AreEqual(new[] {"Action", "Adventure", "Drama", "Sci-Fi"}, media.Genres);
+			AreEqual("카우보이 비밥", media.Synonyms.FirstOrDefault());
+			IsFalse(media.IsLocked);
+			IsNotEmpty(media.Tags.Where(t => t.Id == 63 && t.Name == "Space" && t.IsGeneralSpoiler == false &&
+			                                 t.IsMediaSpoiler == false).ToArray());
+			IsNotEmpty(media.MediaRelations
+			                .Where(r => r.MediaId == 5 && r.RelationType == MediaRelationType.SIDE_STORY)
+			                .ToArray());
+			AreEqual("Cowboy Bebop: The Movie - Knockin' on Heaven's Door", media.Relations.Edges.First().Node.Title.English);
+            AreEqual("カウボーイビバップ天国の扉", media.Relations.Edges.First().Node.Title.Native);
+            AreEqual("Cowboy Bebop: Tengoku no Tobira", media.Relations.Edges.First().Node.Title.Romaji);
+			Contains(1, media.MediaCharacters);
+
+			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First(x => x.Node.Id == 1).Role);
+
+			IsNotEmpty(media.Staff.Edges.Select(e => e.Node.Id == 95269 && e.Role == "ADR Director"));
+			IsNotEmpty(media.Studios.Edges.Select(e => e.Node.Id == 14 && e.IsMain));
+			IsFalse(media.IsAdult);
+			IsNull(media.NextAiringEpisode);
+			IsEmpty(media.MediaAiringSchedule);
+			IsNotEmpty(media.ExternalLinks.Select(l => l.Id == 823
+			                                        && l.Url == "http://www.hulu.com/cowboy-bebop"
+			                                        && l.Site == "Hulu"));
+			IsNotEmpty(media.StreamingEpisodes.Select(e => e.Title == "Episode 1 - Asteroid Blues"
+			                                            && e.Thumbnail ==
+			                                               "https://img1.ak.crunchyroll.com/i/spire2-tmb/e3a45e86c597fe16f02d29efcadedcd81473268732_full.jpg"
+			                                            && e.Url ==
+			                                               "http://www.crunchyroll.com/cowboy-bebop/episode-1-asteroid-blues-719653"
+			                                            && e.Site == "Crunchyroll"));
+			// can't test recommendations, etc as they dynamically change, as they are based on (or literally *are*) user activity
+			AreEqual("https://anilist.co/anime/1", media.SiteUrl);
+			IsFalse(media.AutoCreateForumThread);
+			IsFalse(media.IsRecommendationBlocked);
+			IsNull(media.ModNotes);
+        }
+        
+        [Test]
+        public async Task CowboyBebopAnimeOnlySearchTest()
+        {
+	        // arrange
+	        const string query = "カウボーイビバップ";
+	        const MediaTypes type = MediaTypes.ANIME;
+	        const int searchPage = 1;
+	        const int perPage = 10;
+
+	        // act
+	        var page = await client.GetMediaBySearch(query, type, searchPage, perPage);
+	        
+	        // assert
+	        NotNull(page);
+	        
+	        NotNull(page.PageInfo);
+	        AreEqual(searchPage, page.PageInfo.CurrentPage);
+	        AreEqual(3, page.PageInfo.Total); // Could change over time
+	        IsFalse(page.PageInfo.HasNextPage);
+	        
+	        NotNull(page.Media);
+	        AreEqual(3, page.Media.Length);
+
+	        Media media = page.Media.First(); // This is cheating but I'm not gonna test all items
+	        
+	        AreEqual(1,                         media.Id);
+			AreEqual(1,                         media.IdMal);
+			AreEqual("Cowboy Bebop",            media.EnglishTitle);
+			AreEqual("Cowboy Bebop",            media.RomajiTitle);
+			AreEqual("カウボーイビバップ",               media.NativeTitle);
+			AreEqual(MediaTypes.ANIME,          media.Type);
+			AreEqual(MediaFormats.TV,           media.Format);
+			AreEqual(MediaStatuses.FINISHED,    media.Status);
+			AreEqual(new DateTime(1998, 4, 3),  media.AiringStartDate);
+			AreEqual(new DateTime(1999, 4, 24), media.AiringEndDate);
+			AreEqual(Seasons.SPRING,            media.Season);
+			AreEqual(1998,                      media.SeasonYear);
+			AreEqual(982,                       media.SeasonInt);
+			AreEqual(26,                        media.Episodes);
+			AreEqual(24,                        media.Duration);
+			IsNull(media.Chapters);
+			IsNull(media.Volumes);
+			AreEqual("JP", media.CountryOfOrigin);
+			IsTrue(media.IsLicensed);
+			AreEqual(MediaSources.ORIGINAL, media.Source);
+			IsNull(media.Hashtag);
+			IsNotNull(media.Trailer);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-CXtrrkMpJ8Zq.png",
+			         media.CoverImageExtraLarge);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1-CXtrrkMpJ8Zq.png",
+			         media.CoverImageLarge);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx1-CXtrrkMpJ8Zq.png",
+			         media.CoverImageMedium);
+			AreEqual("#f1785d", media.CoverImageColour);
+			AreEqual("https://s4.anilist.co/file/anilistcdn/media/anime/banner/1-OquNCNB6srGe.jpg",
+			         media.BannerImage);
+			AreEqual(new[] {"Action", "Adventure", "Drama", "Sci-Fi"}, media.Genres);
+			AreEqual("카우보이 비밥", media.Synonyms.FirstOrDefault());
+			IsFalse(media.IsLocked);
+			IsNotEmpty(media.Tags.Where(t => t.Id == 63 && t.Name == "Space" && t.IsGeneralSpoiler == false &&
+			                                 t.IsMediaSpoiler == false).ToArray());
+			IsNotEmpty(media.MediaRelations
+			                .Where(r => r.MediaId == 5 && r.RelationType == MediaRelationType.SIDE_STORY)
+			                .ToArray());
+			AreEqual("Cowboy Bebop: The Movie - Knockin' on Heaven's Door", media.Relations.Edges.First().Node.Title.English);
+            AreEqual("カウボーイビバップ天国の扉", media.Relations.Edges.First().Node.Title.Native);
+            AreEqual("Cowboy Bebop: Tengoku no Tobira", media.Relations.Edges.First().Node.Title.Romaji);
+			Contains(1, media.MediaCharacters);
+
+			AreEqual(CharacterRole.MAIN, media.Characters.Edges.First(x => x.Node.Id == 1).Role);
+
+			IsNotEmpty(media.Staff.Edges.Select(e => e.Node.Id == 95269 && e.Role == "ADR Director"));
+			IsNotEmpty(media.Studios.Edges.Select(e => e.Node.Id == 14 && e.IsMain));
+			IsFalse(media.IsAdult);
+			IsNull(media.NextAiringEpisode);
+			IsEmpty(media.MediaAiringSchedule);
+			IsNotEmpty(media.ExternalLinks.Select(l => l.Id == 823
+			                                        && l.Url == "http://www.hulu.com/cowboy-bebop"
+			                                        && l.Site == "Hulu"));
+			IsNotEmpty(media.StreamingEpisodes.Select(e => e.Title == "Episode 1 - Asteroid Blues"
+			                                            && e.Thumbnail ==
+			                                               "https://img1.ak.crunchyroll.com/i/spire2-tmb/e3a45e86c597fe16f02d29efcadedcd81473268732_full.jpg"
+			                                            && e.Url ==
+			                                               "http://www.crunchyroll.com/cowboy-bebop/episode-1-asteroid-blues-719653"
+			                                            && e.Site == "Crunchyroll"));
+			// can't test recommendations, etc as they dynamically change, as they are based on (or literally *are*) user activity
+			AreEqual("https://anilist.co/anime/1", media.SiteUrl);
+			IsFalse(media.AutoCreateForumThread);
+			IsFalse(media.IsRecommendationBlocked);
+			IsNull(media.ModNotes);
+        }
 	}
 }
