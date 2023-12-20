@@ -459,6 +459,21 @@ namespace Anilist4Net
                 }";
         }
 
+        /// <summary>
+        /// Get query part that can be used to retrieve <see cref="PageInfo"/>
+        /// </summary>
+        /// <returns>Query to retrieve page info</returns>
+        public static string GetPageInfoQuery()
+        {
+	        return @"pageInfo {
+				  total,
+				  currentPage,
+				  lastPage,
+				  hasNextPage,
+				  perPage
+				}";
+        }
+
         #endregion
 
         #region Query Parts
