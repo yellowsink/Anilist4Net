@@ -229,6 +229,39 @@ namespace Anilist4Net
 		}
 
 		/// <summary>
+		/// Search for <see cref="Media"/> entries by its title
+		/// </summary>
+		/// <param name="search">Search query</param>
+		/// <param name="page">The page to search on</param>
+		/// <param name="perPage">The number of entries per page</param>
+		/// <returns>A paginated list of Media instances if found</returns>
+		public async Task<Page> GetMediaBySearch(string search, int page, int perPage)
+		{
+			var query         = $"query ($search: String, $page: Int, $perPage: Int) {{ Page(page: $page, perPage: $perPage) {{ {QueryBuilder.GetPageInfoQuery()} media (search: $search) {QueryBuilder.GetMediaQuery()} }} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search, page, perPage}};
+			var response = await _graphQlClient.SendQueryAsync<PageResponse>(request);
+			
+			return response.Data.Page;
+		}
+
+		/// <summary>
+		/// Search for <see cref="Media"/> entries by its title
+		/// </summary>
+		/// <param name="search">Search query</param>
+		/// <param name="type">The type of media to search for</param>
+		/// <param name="page">The page to search on</param>
+		/// <param name="perPage">The number of entries per page</param>
+		/// <returns>A paginated list of Media instances if found</returns>
+		public async Task<Page?> GetMediaBySearch(string search, MediaTypes type, int page, int perPage)
+		{
+			var query         = $"query ($search: String, $type: MediaType, $page: Int, $perPage: Int) {{ Page(page: $page, perPage: $perPage) {{ {QueryBuilder.GetPageInfoQuery()} media (search: $search, type: $type) {QueryBuilder.GetMediaQuery()} }} }}";
+			var request       = new GraphQLRequest {Query = query, Variables = new {search, type, page, perPage}};
+			var response = await _graphQlClient.SendQueryAsync<PageResponse>(request);
+			
+			return response.Data.Page;
+		}
+
+		/// <summary>
 		/// Retrieve all characters for a <see cref="Media"/> entry.
 		/// </summary>
 		/// <param name="id">AniList media Id</param>
