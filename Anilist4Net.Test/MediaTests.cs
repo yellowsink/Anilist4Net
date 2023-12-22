@@ -147,7 +147,18 @@ namespace Anilist4Net.Test
             AreEqual(result.PageInfo.HasNextPage, true);
 			AreEqual(result.PageInfo.PerPage, 50);
 			AreEqual(result.PageInfo.Total, 5000);
+        }
 
+		[TestCase(114411)]
+		[TestCase(775)]
+		public async Task RateLimitReturned(int animeId)
+		{
+            // arrange
+            // act
+            var media = await client.GetMediaByIdWithRateLimit(animeId);
+			
+            // assert
+            LessOrEqual(media.rateLimitLeft, 90);
         }
 
         [Test]
