@@ -1,22 +1,19 @@
 ﻿#nullable enable
 using System.Threading.Tasks;
-using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.SystemTextJson;
 using Anilist4Net.Enums;
 using System.Net.Http;
 using System;
-using System.Net;
 using Anilist4Net.Connections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Anilist4Net
 {
 	/// <summary>
 	/// Client used to handle retrieval of data from AniList Graph API
 	/// </summary>
-	public class Client
+	public partial class Client
 	{
 		/// <summary>
 		/// GraphQLHttpClient instance
@@ -33,13 +30,30 @@ namespace Anilist4Net
 		/// </summary>
 		/// <param name="httpClient">Client instance to use for queries</param>
 		public Client(HttpClient httpClient)
-		{
+        {
+            RateLimitTimeout = TimeSpan.FromMinutes(1);
+            RateLimitTolerance = 0;
 			var options = new GraphQLHttpClientOptions
 			{
 				EndPoint = new Uri("https://graphql.anilist.co")
 			};
 			_graphQlClient = new GraphQLHttpClient(options, new SystemTextJsonSerializer(), httpClient);
 		}
+
+		/// <summary>
+		/// Indicate if methods that fetch multiple pages should wait when they hit the rate limit
+		/// </summary>
+		public bool ObeyRateLimit { get; set; }
+
+		/// <summary>
+		/// The amount of time to wait if the rate limit was hit
+		/// </summary>
+		public TimeSpan RateLimitTimeout { get; set; }
+
+		/// <summary>
+		/// If the remaining rate limit entries are below this value retrieval of multiple entries will wait for rate limit recovery
+		/// </summary>
+		public int RateLimitTolerance { get; set; }
 
         #region Query Invocations
 
@@ -49,13 +63,9 @@ namespace Anilist4Net
 		/// <param name="username">Username of the user to retrieve</param>
 		/// <returns>User data</returns>
         public async Task<User> GetUserByName(string username)
-		{
-			var query         = $"query ($username: String) {{ User (name: $username) {QueryBuilder.GetUserQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {username}};
-			var response      = await _graphQlClient.SendQueryAsync<UserResponse>(request);
-
-			return response.Data.User;
-		}
+        {
+            return (await GetUserByNameWithRateLimit(username)).user;
+        }
 
 		/// <summary>
 		/// Retrieve a <see cref="User"/> by their AniList Id
@@ -64,11 +74,7 @@ namespace Anilist4Net
 		/// <returns>User data</returns>
 		public async Task<User> GetUserById(int id)
 		{
-			var query         = $"query ($id: Int) {{ User (id: $id) {QueryBuilder.GetUserQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<UserResponse>(request);
-
-			return response.Data.User;
+			return (await GetUserByIdWithRateLimit(id)).user;
 		}
 
 		/// <summary>
@@ -77,29 +83,9 @@ namespace Anilist4Net
 		/// <param name="id">AniList media Id</param>
 		/// <returns>Media instance if it exists, otherwise null</returns>
 		public async Task<Media?> GetMediaById(int id)
-		{
-			var query         = $"query ($id: Int) {{ Media (id: $id) {QueryBuilder.GetMediaQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			GraphQLResponse<MediaResponse> response = null!;
-			try
-			{
-				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
-				var characterCount = response.Data.Media.Characters.Edges.Length;
-				if(characterCount >= 25)
-                {
-					var additionalCharacters = await GetAllCharactersAsync(id, 2);
-					additionalCharacters.AddRange(response.Data.Media.Characters.Edges);
-					response.Data.Media.Characters.Edges = additionalCharacters.ToArray();
-                }
-			}
-			catch (GraphQLHttpRequestException e)
-			{
-				if (e.StatusCode == HttpStatusCode.NotFound)
-					return null; // media did not exist
-			}
-
-			return response.Data.Media;
-		}
+        {
+            return (await GetMediaByIdWithRateLimit(id)).media;
+        }
 
 		/// <summary>
 		/// Retrieve a <see cref="Media"/> entry by its MyAnimeList Id.
@@ -111,30 +97,9 @@ namespace Anilist4Net
 		/// <param name="id">MAL Id to retrieve entry for</param>
 		/// <returns>Media instance if one could be found, otherwise null</returns>
 		public async Task<Media?> GetMediaByMalId(int id)
-		{
-			var query         = $"query ($id: Int) {{ Media (idMal: $id) {QueryBuilder.GetMediaQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			GraphQLResponse<MediaResponse> response = null!;
-			try
-			{
-				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
-				var characterCount = response.Data.Media.Characters.Edges.Length;
-				if (characterCount >= 25)
-				{
-					// Swap to the AniList Id rather than using the Mal Id
-					var additionalCharacters = await GetAllCharactersAsync(response.Data.Media.Id, 2);
-					additionalCharacters.AddRange(response.Data.Media.Characters.Edges);
-					response.Data.Media.Characters.Edges = additionalCharacters.ToArray();
-				}
-			}
-			catch (GraphQLHttpRequestException e)
-			{
-				if (e.StatusCode == HttpStatusCode.NotFound)
-					return null; // media did not exist
-			}
-
-			return response.Data.Media;
-		}
+        {
+            return (await GetMediaByMalIdWithRateLimit(id)).media;
+        }
 
 		/// <summary>
 		/// Retrieve a <see cref="Media"/> entry by its MyAnimeList Id and its AniList type
@@ -144,27 +109,7 @@ namespace Anilist4Net
 		/// <returns>Media instance if one could be found, otherwise null</returns>
 		public async Task<Media?> GetMediaByMalId(int id, MediaTypes mediaType)
         {
-            var query = $"query ($id: Int) {{ Media (idMal: $id type: {mediaType}) {QueryBuilder.GetMediaQuery()} }}";
-            var request = new GraphQLRequest { Query = query, Variables = new { id } };
-            GraphQLResponse<MediaResponse> response = null!;
-            try
-            {
-                response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
-				var characterCount = response.Data.Media.Characters.Edges.Length;
-				if (characterCount >= 25)
-				{
-					var additionalCharacters = await GetAllCharactersAsync(id, 2);
-					additionalCharacters.AddRange(response.Data.Media.Characters.Edges);
-					response.Data.Media.Characters.Edges = additionalCharacters.ToArray();
-				}
-			}
-            catch (GraphQLHttpRequestException e)
-            {
-                if (e.StatusCode == HttpStatusCode.NotFound)
-                    return null; // media did not exist
-            }
-
-            return response.Data.Media;
+            return (await GetMediaByMalIdWithRateLimit(id, mediaType)).media;
 		}
 
 		/// <summary>
@@ -174,27 +119,7 @@ namespace Anilist4Net
 		/// <returns>Media instance if one could be found, otherwise null</returns>
 		public async Task<Media?> GetMediaBySearch(string search)
 		{
-			var query         = $"query ($search: String) {{ Media (search: $search) {QueryBuilder.GetMediaQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			GraphQLResponse<MediaResponse> response = null!;
-			try
-			{
-				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
-				var characterCount = response.Data.Media.Characters.Edges.Length;
-				if (characterCount >= 25)
-				{
-					var additionalCharacters = await GetAllCharactersAsync(response.Data.Media.Id, 2);
-					additionalCharacters.AddRange(response.Data.Media.Characters.Edges);
-					response.Data.Media.Characters.Edges = additionalCharacters.ToArray();
-				}
-			}
-			catch (GraphQLHttpRequestException e)
-			{
-				if (e.StatusCode == HttpStatusCode.NotFound)
-					return null; // media did not exist
-			}
-
-			return response.Data.Media;
+			return (await GetMediaBySearchWithRateLimit(search)).media;
 		}
 
 		/// <summary>
@@ -205,27 +130,7 @@ namespace Anilist4Net
 		/// <returns>Media instance if one could be found, otherwise null</returns>
 		public async Task<Media?> GetMediaBySearch(string search, MediaTypes type)
 		{
-			var query         = $"query ($search: String $type: MediaType) {{ Media (search: $search type: $type) {QueryBuilder.GetMediaQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search, type}};
-			GraphQLResponse<MediaResponse> response = null!;
-			try
-			{
-				response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
-				var characterCount = response.Data.Media.Characters.Edges.Length;
-				if (characterCount >= 25)
-				{
-					var additionalCharacters = await GetAllCharactersAsync(response.Data.Media.Id, 2);
-					additionalCharacters.AddRange(response.Data.Media.Characters.Edges);
-					response.Data.Media.Characters.Edges = additionalCharacters.ToArray();
-				}
-			}
-			catch (GraphQLHttpRequestException e)
-			{
-				if (e.StatusCode == HttpStatusCode.NotFound)
-					return null; // media did not exist
-			}
-
-			return response.Data.Media;
+			return (await GetMediaBySearchWithRateLimit(search, type)).media;
 		}
 
 		/// <summary>
@@ -236,13 +141,9 @@ namespace Anilist4Net
 		/// <param name="perPage">The number of entries per page</param>
 		/// <returns>A paginated list of Media instances if found</returns>
 		public async Task<Page> GetMediaBySearch(string search, int page, int perPage)
-		{
-			var query         = $"query ($search: String, $page: Int, $perPage: Int) {{ Page(page: $page, perPage: $perPage) {{ {QueryBuilder.GetPageInfoQuery()} media (search: $search) {QueryBuilder.GetMediaQuery()} }} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search, page, perPage}};
-			var response = await _graphQlClient.SendQueryAsync<PageResponse>(request);
-			
-			return response.Data.Page;
-		}
+        {
+            return (await GetMediaBySearchWithRateLimit(search, page, perPage)).page;
+        }
 
 		/// <summary>
 		/// Search for <see cref="Media"/> entries by its title
@@ -254,11 +155,7 @@ namespace Anilist4Net
 		/// <returns>A paginated list of Media instances if found</returns>
 		public async Task<Page?> GetMediaBySearch(string search, MediaTypes type, int page, int perPage)
 		{
-			var query         = $"query ($search: String, $type: MediaType, $page: Int, $perPage: Int) {{ Page(page: $page, perPage: $perPage) {{ {QueryBuilder.GetPageInfoQuery()} media (search: $search, type: $type) {QueryBuilder.GetMediaQuery()} }} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search, type, page, perPage}};
-			var response = await _graphQlClient.SendQueryAsync<PageResponse>(request);
-			
-			return response.Data.Page;
+			return (await GetMediaBySearchWithRateLimit(search, type, page, perPage)).page;
 		}
 
 		/// <summary>
@@ -269,26 +166,7 @@ namespace Anilist4Net
 		/// <returns>List of <see cref="CharacterEdge"/>s for the Media</returns>
 		public async Task<List<CharacterEdge>> GetAllCharactersAsync(int id, int page)
 		{
-			var characterCount = 0;
-			var characters = new List<CharacterEdge>();
-			do
-			{
-				try
-				{
-					var query = $"query ($id: Int) {{ Media (id: $id) {QueryBuilder.GetCharactersForMediaQuery(page)} }}";
-					var request = new GraphQLRequest { Query = query, Variables = new { id } };
-					var response = await _graphQlClient.SendQueryAsync<MediaResponse>(request);
-					characterCount = response.Data.Media.Characters.Edges.Length;
-					characters.AddRange(response.Data.Media.Characters.Edges);
-					page++;
-				}
-				catch (Exception)
-				{
-					// What to do here? We don't really mind as we can just keep trying until the end
-				}
-			} while (characterCount >= 25);
-
-			return characters;
+			return (await GetAllCharactersAsyncWithRateLimit(id, page)).characters;
 		}
 
 		/// <summary>
@@ -298,11 +176,7 @@ namespace Anilist4Net
 		/// <returns>Review for the requested Id</returns>
 		public async Task<Review> GetReviewById(int id)
 		{
-			var query         = $"query ($id: Int) {{ Review (id: $id) {QueryBuilder.GetReviewQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<ReviewResponse>(request);
-
-			return response.Data.Review;
+			return (await GetReviewByIdWithRateLimit(id)).review;
 		}
 
 		/// <summary>
@@ -311,13 +185,9 @@ namespace Anilist4Net
 		/// <param name="id">AniList Id of the schedule entry to retrieve</param>
 		/// <returns>AiringSchedule entry</returns>
 		public async Task<AiringSchedule> GetAiringScheduleById(int id)
-		{
-			var query         = $"query ($id: Int) {{ AiringSchedule (id: $id) {QueryBuilder.GetAiringScheduleQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<AiringScheduleResponse>(request);
-
-			return response.Data.AiringSchedule;
-		}
+        {
+            return (await GetAiringScheduleByIdWithRateLimit(id)).schedule;
+        }
 
 		/// <summary>
 		/// Retrieve a <see cref="Recommendation"/> entry by its AniList Id
@@ -326,11 +196,7 @@ namespace Anilist4Net
 		/// <returns>Recommendation entry</returns>
 		public async Task<Recommendation> GetRecommendationById(int id)
 		{
-			var query         = $"query ($id: Int) {{ Recommendation (id: $id) {QueryBuilder.GetRecommendationQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<RecommendationResponse>(request);
-
-			return response.Data.Recommendation;
+			return (await GetRecommendationByIdWithRateLimit(id)).recommendation;
 		}
 
 		/// <summary>
@@ -340,21 +206,7 @@ namespace Anilist4Net
 		/// <returns>Character entry</returns>
 		public async Task<Character> GetCharacterById(int id)
 		{
-			var query         = $"query ($id: Int) {{ Character (id: $id) {QueryBuilder.GetCharacterQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<CharacterResponse>(request);
-
-			var mediaCount = response.Data.Character.Media.Edges.Length;
-			if (mediaCount >= 25)
-			{
-				var additionalMedia = await GetAllMediaEntriesForCharacter(id, 2);
-				additionalMedia.edges.AddRange(response.Data.Character.Media.Edges);
-				additionalMedia.nodes.AddRange(response.Data.Character.Media.Nodes);
-				response.Data.Character.Media.Edges = additionalMedia.edges.ToArray();
-				response.Data.Character.Media.Nodes = additionalMedia.nodes.ToArray();
-			}
-
-			return response.Data.Character;
+			return (await GetCharacterByIdWithRateLimit(id)).character;
 		}
 
 		/// <summary>
@@ -364,31 +216,11 @@ namespace Anilist4Net
 		/// <param name="page">Page to start the retrieval from</param>
 		/// <returns>Tuple containing a list of <see cref="MediaEdge"/>s and <see cref="MediaNodePlaceholder"/>s for the <see cref="Character"/></returns>
 		public async Task<(List<CharacterEdge> edges, List<MediaNodePlaceholder> nodes)> GetAllMediaEntriesForCharacter(int id, int page)
-		{
-			var mediaCount = 0;
-			var edges = new List<CharacterEdge>();
-			var nodes = new List<MediaNodePlaceholder>();
-			do
-			{
-				try
-				{
-					var query = $"query ($id: Int) {{ Character (id: $id) {QueryBuilder.GetCharacterMediaQuery(page)} }}";
-					var request = new GraphQLRequest { Query = query, Variables = new { id } };
-					var response = await _graphQlClient.SendQueryAsync<CharacterResponse>(request);
-					mediaCount = response.Data.Character.Media.Edges.Length;
-					edges.AddRange(response.Data.Character.Media.Edges);
-					nodes.AddRange(response.Data.Character.Media.Nodes);					
-					
-					page++;
-				}
-				catch (Exception)
-				{
-					// What to do here? We don't really mind as we can just keep trying until the end
-				}
-			} while (mediaCount >= 25);
+        {
+            var (edges, nodes, _) = await GetAllMediaEntriesForCharacterWithRateLimit(id, page);
 
 			return (edges, nodes);
-		}
+        }
 
 		/// <summary>
 		/// Search for a <see cref="Character"/>
@@ -397,11 +229,7 @@ namespace Anilist4Net
 		/// <returns>Character matching the query</returns>
 		public async Task<Character> GetCharacterBySearch(string search)
 		{
-			var query         = $"query ($search: String) {{ Character (search: $search) {QueryBuilder.GetCharacterQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await _graphQlClient.SendQueryAsync<CharacterResponse>(request);
-
-			return response.Data.Character;
+			return (await GetCharacterBySearchWithRateLimit(search)).character;
 		}
 
 		/// <summary>
@@ -411,25 +239,17 @@ namespace Anilist4Net
 		/// <returns>Studio for the Id</returns>
 		public async Task<Studio> GetStudioById(int id)
 		{
-			var query         = $"query ($id: Int) {{ Studio (id: $id) {QueryBuilder.GetStudioQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<StudioResponse>(request);
-
-			return response.Data.Studio;
+			return (await GetStudioByIdWithRateLimit(id)).studio;
 		}
 
 		/// <summary>
 		/// Search for a <see cref="Studio"/>
 		/// </summary>
 		/// <param name="search">Search query</param>
-		/// <returns>Studio entry mathing the search query</returns>
+		/// <returns>Studio entry matching the search query</returns>
 		public async Task<Studio> GetStudioBySearch(string search)
 		{
-			var query         = $"query ($search: String) {{ Studio (search: $search) {QueryBuilder.GetStudioQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await _graphQlClient.SendQueryAsync<StudioResponse>(request);
-
-			return response.Data.Studio;
+			return (await GetStudioBySearchWithRateLimit(search)).studio;
 		}
 
 		/// <summary>
@@ -438,21 +258,9 @@ namespace Anilist4Net
 		/// <param name="id">Id of the staff entry to retrieve</param>
 		/// <returns>Staff entry for the Id</returns>
 		public async Task<Staff> GetStaffById(int id)
-		{
-			var query         = $"query ($id: Int) {{ Staff (id: $id) {QueryBuilder.GetStaffQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {id}};
-			var response      = await _graphQlClient.SendQueryAsync<StaffResponse>(request);
-
-			var characterCount = response.Data.Staff.Characters.Edges.Length;
-			if (characterCount >= 25)
-			{
-				var additionalCharacters = await GetAllCharactersForStaffAsync(id, 2);
-				additionalCharacters.AddRange(response.Data.Staff.Characters.Edges);
-				response.Data.Staff.Characters.Edges = additionalCharacters.ToArray();
-			}
-
-			return response.Data.Staff;
-		}
+        {
+            return (await GetStaffByIdWithRateLimit(id)).staff;
+        }
 
 		/// <summary>
 		/// Search for a <see cref="Staff"/> entry
@@ -461,19 +269,7 @@ namespace Anilist4Net
 		/// <returns>Staff entry matching the search</returns>
 		public async Task<Staff> GetStaffBySearch(string search)
 		{
-			var query         = $"query ($search: String) {{ Staff (search: $search) {QueryBuilder.GetStaffQuery()} }}";
-			var request       = new GraphQLRequest {Query = query, Variables = new {search}};
-			var response      = await _graphQlClient.SendQueryAsync<StaffResponse>(request);
-
-			var characterCount = response.Data.Staff.Characters.Edges.Length;
-			if (characterCount >= 25)
-			{
-				var additionalCharacters = await GetAllCharactersForStaffAsync(response.Data.Staff.Id, 2);
-				additionalCharacters.AddRange(response.Data.Staff.Characters.Edges);
-				response.Data.Staff.Characters.Edges = additionalCharacters.ToArray();
-			}
-
-			return response.Data.Staff;
+			return (await GetStaffBySearchWithRateLimit(search)).staff;
 		}
 
         /// <summary>
@@ -485,11 +281,7 @@ namespace Anilist4Net
         /// <returns>Media for the requested season</returns>
         public async Task<Page> GetMediaForSeason(int page, Seasons season, int seasonYear)
         {
-            var query         = $"query ($page: Int $season: MediaSeason, $seasonYear: Int) {{ Page (page: $page) {{ media (season: $season seasonYear: $seasonYear) {QueryBuilder.GetSeasonQuery()} }}}}";
-            var request       = new GraphQLRequest { Query = query, Variables = new { page, season, seasonYear } };
-            var response      = await _graphQlClient.SendQueryAsync<PageResponse>(request);
-
-            return response.Data.Page;
+            return (await GetMediaForSeasonWithRateLimit(page, season, seasonYear)).page;
         }
 
         /// <summary>
@@ -499,29 +291,9 @@ namespace Anilist4Net
         /// <param name="page">Page to start the retrieval from</param>
         /// <returns>List of <see cref="MediaEdge"/>s for the <see cref="Staff"/></returns>
         public async Task<List<CharacterEdge>> GetAllCharactersForStaffAsync(int id, int page)
-		{
-			var mediaCount = 0;
-			var edges = new List<CharacterEdge>();
-			do
-			{
-				try
-				{
-					var query = $"query ($id: Int) {{ Staff (id: $id) {QueryBuilder.GetStaffCharactersQuery(page)} }}";
-					var request = new GraphQLRequest { Query = query, Variables = new { id } };
-					var response = await _graphQlClient.SendQueryAsync<StaffResponse>(request);
-					mediaCount = response.Data.Staff.Characters.Edges.Length;
-					edges.AddRange(response.Data.Staff.Characters.Edges);
-
-					page++;
-				}
-				catch (Exception)
-				{
-					// What to do here? We don't really mind as we can just keep trying until the end
-				}
-			} while (mediaCount >= 25);
-
-			return edges;
-		}
+        {
+            return (await GetAllCharactersForStaffWithRateLimitAsync(id, page)).characters;
+        }
 
 		#endregion
 	}
