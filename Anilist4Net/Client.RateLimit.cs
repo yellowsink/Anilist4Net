@@ -246,6 +246,7 @@ public partial class Client
         GraphQLResponse<MediaResponse>? response = null;
         do
         {
+            var timeoutHit = false;
             try
             {
                 var query = $"query ($id: Int) {{ Media (id: $id) {QueryBuilder.GetCharactersForMediaQuery(page)} }}";
@@ -255,10 +256,23 @@ public partial class Client
                 characters.AddRange(response.Data.Media.Characters.Edges);
                 page++;
             }
+            catch (GraphQLHttpRequestException exception)
+            {
+                if (exception.GetRemainingLimit() == 0)
+                {
+                    timeoutHit = true;
+                }
+            }
             catch (Exception)
             {
                 // What to do here? We don't really mind as we can just keep trying until the end
             }
+
+            if (ObeyRateLimit && (timeoutHit || response.GetRemainingLimit() <= RateLimitTolerance))
+            {
+                await Task.Delay(RateLimitTimeout);
+            }
+
         } while (characterCount >= 25);
 
         return (characters, response.GetRemainingLimit());
@@ -344,6 +358,7 @@ public partial class Client
         GraphQLResponse<CharacterResponse>? response = null;
         do
         {
+            var timeoutHit = false;
             try
             {
                 var query = $"query ($id: Int) {{ Character (id: $id) {QueryBuilder.GetCharacterMediaQuery(page)} }}";
@@ -355,9 +370,21 @@ public partial class Client
 
                 page++;
             }
+            catch (GraphQLHttpRequestException exception)
+            {
+                if (exception.GetRemainingLimit() == 0)
+                {
+                    timeoutHit = true;
+                }
+            }
             catch (Exception)
             {
                 // What to do here? We don't really mind as we can just keep trying until the end
+            }
+
+            if (ObeyRateLimit && (timeoutHit || response.GetRemainingLimit() <= RateLimitTolerance))
+            {
+                await Task.Delay(RateLimitTimeout);
             }
         } while (mediaCount >= 25);
 
@@ -479,6 +506,7 @@ public partial class Client
         GraphQLResponse<StaffResponse>? response = null;
         do
         {
+            var timeoutHit = false;
             try
             {
                 var query = $"query ($id: Int) {{ Staff (id: $id) {QueryBuilder.GetStaffCharactersQuery(page)} }}";
@@ -489,9 +517,21 @@ public partial class Client
 
                 page++;
             }
+            catch (GraphQLHttpRequestException exception)
+            {
+                if (exception.GetRemainingLimit() == 0)
+                {
+                    timeoutHit = true;
+                }
+            }
             catch (Exception)
             {
                 // What to do here? We don't really mind as we can just keep trying until the end
+            }
+
+            if (ObeyRateLimit && (timeoutHit || response.GetRemainingLimit() <= RateLimitTolerance))
+            {
+                await Task.Delay(RateLimitTimeout);
             }
         } while (mediaCount >= 25);
 

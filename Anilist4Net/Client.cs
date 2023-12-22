@@ -30,14 +30,31 @@ namespace Anilist4Net
 		/// </summary>
 		/// <param name="httpClient">Client instance to use for queries</param>
 		public Client(HttpClient httpClient)
-		{
+        {
+            RateLimitTimeout = TimeSpan.FromMinutes(1);
+            RateLimitTolerance = 0;
 			var options = new GraphQLHttpClientOptions
 			{
 				EndPoint = new Uri("https://graphql.anilist.co")
 			};
 			_graphQlClient = new GraphQLHttpClient(options, new SystemTextJsonSerializer(), httpClient);
 		}
-		
+
+		/// <summary>
+		/// Indicate if methods that fetch multiple pages should wait when they hit the rate limit
+		/// </summary>
+		public bool ObeyRateLimit { get; set; }
+
+		/// <summary>
+		/// The amount of time to wait if the rate limit was hit
+		/// </summary>
+		public TimeSpan RateLimitTimeout { get; set; }
+
+		/// <summary>
+		/// If the remaining rate limit entries are below this value retrieval of multiple entries will wait for rate limit recovery
+		/// </summary>
+		public int RateLimitTolerance { get; set; }
+
         #region Query Invocations
 
 		/// <summary>
